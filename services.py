@@ -2,9 +2,8 @@ import requests
 from bs4 import BeautifulSoup
 
 
-def get_vn_express():
+def get_vn_express(rss_url):
     # Load RSS feed
-    rss_url = "https://vnexpress.net/rss/giai-tri.rss"  # example category
     response = requests.get(rss_url)
     soup = BeautifulSoup(response.content, "xml")
 
@@ -26,6 +25,7 @@ def get_vn_express():
                 "title": title,
                 "link": link,
                 "image_url": image_url,
+                "source_logo_url": "logo/vne_logo_rss.png"
             }
         )
 

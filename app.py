@@ -26,10 +26,15 @@ def get_data():
 
 @app.route("/", methods=["GET"])
 def get_news():
-    items = get_vn_express()
+    hot_news = get_vn_express("https://vnexpress.net/rss/thoi-su.rss")
+    items = get_vn_express("https://vnexpress.net/rss/tin-moi-nhat.rss")
+
+    hot_news = [new for new in hot_news if new["image_url"]][:15]
+
     return render_template(
         "index.html",
-        items=items
+        hot_news=hot_news,
+        items=items,
     )
 
 
