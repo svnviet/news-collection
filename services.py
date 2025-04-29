@@ -2,7 +2,7 @@ import requests
 from bs4 import BeautifulSoup
 
 
-def get_vn_express(rss_url):
+def get_vn_express(rss_url, is_slide=False):
     # Load RSS feed
     response = requests.get(rss_url)
     soup = BeautifulSoup(response.content, "xml")
@@ -27,14 +27,16 @@ def get_vn_express(rss_url):
                 is_long = True
                 idx_is_long = idx
 
-        data.append(
-            {
-                "title": title,
-                "link": link,
-                "image_url": image_url,
-                "source_logo_url": "logo/vne_logo_rss.png",
-                "is_long": is_long,
-            }
-        )
+        row = {
+            "title": title,
+            "link": link,
+            "image_url": image_url,
+            "source_logo_url": "logo/vne_logo_rss.png",
+            "description": description,
+        }
+        if is_slide == False:
+            row["is_long"] = is_long
+
+        data.append(row)
 
     return data

@@ -26,7 +26,7 @@ def get_data():
 
 @app.route("/", methods=["GET"])
 def get_news():
-    hot_news = get_vn_express("https://vnexpress.net/rss/thoi-su.rss")
+    hot_news = get_vn_express("https://vnexpress.net/rss/thoi-su.rss", is_slide=True)
     items = get_vn_express("https://vnexpress.net/rss/tin-moi-nhat.rss")
 
     hot_news = [new for new in hot_news if new["image_url"]][:15]

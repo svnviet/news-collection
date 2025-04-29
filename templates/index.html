@@ -27,8 +27,7 @@
 <script src="https://cdn.jsdelivr.net/npm/alpinejs@3.x.x/dist/cdn.min.js" defer></script>
 
 <section class="max-w-7xl mx-auto p-4">
-    <div class="grid grid-cols-4 grid-rows-2 gap-2">
-
+    <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 auto-rows-[100px] gap-2">
         <!-- 2x1 Featured Card with Carousel (600x300) -->
         <div
                 x-data="{
@@ -69,55 +68,74 @@
             </div>
         </div>
 
-        <!-- Bottom Row (4x 1x1 Cards) -->
         {% for item in items %}
-        {% if item.image_url %}
-        <a href="{{ item.link }}" target="_blank" class="block">
-            <div class="bg-white rounded-xl shadow overflow-hidden h-[100px] flex">
-                <!-- Left side: logo on top, then title -->
+        {% if item.image_url and not item.is_long %}
+        <a href="{{ item.link }}" target="_blank" class="block col-span-1 row-span-1">
+            <div class="bg-white rounded-xl shadow overflow-hidden h-full flex">
+                <!-- Left: logo + title -->
                 <div class="w-3/5 p-2 flex flex-col">
-                    <!-- Logo on top -->
                     <div>
                         <img src="{{ url_for('static', filename=item.source_logo_url) }}" alt="Source Logo"
                              class="h-4 mb-1">
                     </div>
-
-                    <!-- Title below logo -->
                     <h4 class="text-sm font-semibold line-clamp-3">{{ item.title }}</h4>
                 </div>
-
-                <!-- Right side: image with border -->
+                <!-- Right: image -->
                 <div class="w-2/5 p-2 flex items-center justify-center">
                     <img src="{{ item.image_url }}" alt=""
                          class="w-full h-full object-cover border border-gray-300 rounded-md">
                 </div>
             </div>
         </a>
-        {% else %}
+        {% elif item.image_url and item.is_long %}
+        <a href="{{ item.link }}" target="_blank"
+           class="block col-span-1 sm:col-span-2 lg:col-span-2 row-span-3">
+            <div class="bg-white rounded-xl shadow overflow-hidden h-full flex">
+                <!-- Left: logo + title -->
+                <div class="w-2/5 p-2 flex flex-col">
+                    <div>
+                        <img src="{{ url_for('static', filename=item.source_logo_url) }}" alt="Source Logo"
+                             class="h-4 mb-1">
+                    </div>
+                    <div class="pt-3">
+                        <h4 class="text-sm font-semibold line-clamp-3">{{ item.title }}</h4>
+                    </div>
+                    <div class="pt-3">
+                        <h4 class="text-sx line-clamp-7">{{ item.description | striptags}}</h4>
+                    </div>
+                </div>
+                <!-- Right: image -->
+                <div class="w-3/5 p-2 flex items-center justify-center">
+                    <img src="{{ item.image_url }}" alt=""
+                         class="w-full h-full object-cover border border-gray-300 rounded-md">
+                </div>
+            </div>
+        </a>
+        {% elif not item.image_url%}
         <a href="{{ item.link }}" target="_blank" class="block">
-            <div class="bg-white rounded-xl shadow overflow-hidden h-[300px] p-2 flex flex-col">
-                <!-- First row: logo (3/5) and "Chuyên mục" (2/5) -->
+            <div class="bg-white rounded-xl shadow overflow-hidden h-[100px] p-2 flex flex-col">
+
+                <!-- Row 1: Logo (3/5) and Chuyên mục (2/5) -->
                 <div class="flex w-full">
                     <!-- Logo: 3/5 -->
                     <div class="w-3/5 flex items-center">
                         <img src="{{ url_for('static', filename=item.source_logo_url) }}" alt="Source Logo" class="h-4">
                     </div>
                     <!-- Chuyên mục: 2/5 -->
-                    <div class="w-2/5 flex items-center justify-end">
+                    <div class="w-2/5 flex items-center justify-start">
                         <h4 class="text-xs text-gray-600 line-clamp-1">Chuyên mục</h4>
                     </div>
                 </div>
 
-                <!-- Second row: title with extra top padding -->
-                <div class="pt-2">
-                    <h4 class="text-sm font-semibold line-clamp-3">{{ item.title }}</h4>
+                <!-- Row 2: Title -->
+                <div class="pt-5">
+                    <h4 class="text-sm font-semibold line-clamp-2">{{ item.title }}</h4>
                 </div>
             </div>
         </a>
+
         {% endif %}
-
         {% endfor %}
-
     </div>
 
 
