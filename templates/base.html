@@ -1,0 +1,151 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+    <title>SVN VI</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdn.jsdelivr.net/npm/alpinejs@3.x.x/dist/cdn.min.js" defer></script>
+</head>
+<body class="bg-gray-100 text-gray-800">
+
+<!-- Header -->
+<header class="bg-white shadow-md sticky top-0 z-10">
+    <div class="max-w-7xl mx-auto px-4 py-4 flex justify-between items-center">
+        <a href="/">
+            <h1 class="text-2xl font-bold text-blue-600">SVN VI</h1>
+        </a>
+        <nav class="space-x-4">
+            <a href="/" class="text-gray-700 hover:text-blue-600">Tổng hợp</a>
+            <a href="{{ url_for('get_news_by', theloai='the-gioi') }}" class="text-gray-700 hover:text-blue-600">Thế
+                giới</a>
+            <a href="{{ url_for('get_news_by', theloai='the-gioi') }}" class="text-gray-700 hover:text-blue-600">Công
+                nghệ</a>
+            <a href="{{ url_for('get_news_by', theloai='the-gioi') }}" class="text-gray-700 hover:text-blue-600">Kinh
+                doanh</a>
+            <a href="{{ url_for('get_news_by', theloai='the-gioi') }}" class="text-gray-700 hover:text-blue-600">Cuộc
+                sống</a>
+        </nav>
+    </div>
+</header>
+
+<!-- Alpine.js (only needed once in <head>) -->
+<script src="https://cdn.jsdelivr.net/npm/alpinejs@3.x.x/dist/cdn.min.js" defer></script>
+
+{% block content %}{% endblock %}
+
+<!-- Footer -->
+<footer class="bg-white mt-10 border-t py-6 text-center text-sm text-gray-500">
+    © 2025 SVN-VI. All rights reserved.
+</footer>
+
+<script>
+    function getContentNewsFeed(item) {
+        const a = document.createElement('a');
+        a.href = `/detail/${item.link}`;
+        a.target = '_blank';
+
+        if (item.image_url && !item.is_long) {
+            a.className = 'block col-span-1 row-span-1';
+            a.innerHTML = `
+            <div class="bg-white rounded-xl shadow overflow-hidden h-full flex">
+                <div class="w-3/5 p-2 flex flex-col">
+                    <div>
+                        <img src="/static/${item.source_logo_url}" alt="Source Logo" class="h-4 mb-1">
+                    </div>
+                    <h4 class="text-sm font-semibold line-clamp-3">${item.title}</h4>
+                </div>
+                <div class="w-2/5 p-2 flex items-center justify-center">
+                    <img src="${item.image_url}" alt="" class="w-full h-full object-cover border border-gray-300 rounded-md">
+                </div>
+            </div>
+        `;
+        } else if (item.image_url && item.is_long) {
+            a.className = 'block col-span-1 sm:col-span-2 lg:col-span-2 row-span-3';
+            a.innerHTML = `
+            <div class="bg-white rounded-xl shadow overflow-hidden h-full flex">
+                <div class="w-2/5 p-2 flex flex-col">
+                    <div>
+                        <img src="/static/${item.source_logo_url}" alt="Source Logo" class="h-4 mb-1">
+                    </div>
+                    <div class="pt-3">
+                        <h4 class="text-sm font-semibold line-clamp-3">${item.title}</h4>
+                    </div>
+                    <div class="pt-3">
+                        <h4 class="text-sx line-clamp-7">${stripTags(item.description || '')}</h4>
+                    </div>
+                </div>
+                <div class="w-3/5 p-2 flex items-center justify-center">
+                    <img src="${item.image_url}" alt="" class="w-full h-full object-cover border border-gray-300 rounded-md">
+                </div>
+            </div>
+        `;
+        } else {
+            a.className = 'block';
+            a.innerHTML = `
+            <div class="bg-white rounded-xl shadow overflow-hidden h-[100px] p-2 flex flex-col">
+                <div class="flex w-full">
+                    <div class="w-3/5 flex items-center">
+                        <img src="/static/${item.source_logo_url}" alt="Source Logo" class="h-4">
+                    </div>
+                    <div class="w-2/5 flex items-center justify-start">
+                        <h4 class="text-xs text-gray-600 line-clamp-1">Chuyên mục</h4>
+                    </div>
+                </div>
+                <div class="pt-5">
+                    <h4 class="text-sm font-semibold line-clamp-2">${item.title}</h4>
+                </div>
+            </div>
+        `;
+        }
+
+        return a;
+    }
+
+    function stripTags(html) {
+        const tmp = document.createElement('DIV');
+        tmp.innerHTML = html;
+        return tmp.textContent || tmp.innerText || '';
+    }
+
+    function newsFeed() {
+        return {
+            page: 2,
+            loading: false,
+            end: false,
+            async init() {
+                // already loaded page 1 via server-side rendering
+            },
+            async loadMore() {
+                if (this.loading || this.end) return;
+                this.loading = true;
+                try {
+                    const res = await fetch(`/load_more?page=${this.page}`);
+                    const data = await res.json();
+                    if (!data.length) {
+                        this.end = true;
+                        return;
+                    }
+                    const container = document.getElementById("news-container");
+                    data.forEach(item => {
+                        // const div = document.createElement("div");
+                        const newsFeedElement = getContentNewsFeed(item);
+                        container.appendChild(newsFeedElement);
+                    });
+                    this.page++;
+                } finally {
+                    this.loading = false;
+                }
+            },
+            handleScroll() {
+                if ((window.innerHeight + window.scrollY) >= (document.body.offsetHeight - 300)) {
+                    this.loadMore();
+                }
+            }
+        }
+    }
+</script>
+
+</body>
+</html>
+

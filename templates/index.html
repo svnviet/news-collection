@@ -1,31 +1,5 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8"/>
-    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-    <title>MyNewsHub</title>
-    <script src="https://cdn.tailwindcss.com"></script>
-    <script src="https://cdn.jsdelivr.net/npm/alpinejs@3.x.x/dist/cdn.min.js" defer></script>
-</head>
-<body class="bg-gray-100 text-gray-800">
-
-<!-- Header -->
-<header class="bg-white shadow-md sticky top-0 z-10">
-    <div class="max-w-7xl mx-auto px-4 py-4 flex justify-between items-center">
-        <h1 class="text-2xl font-bold text-blue-600">MyNewsHub</h1>
-        <nav class="space-x-4">
-            <a href="#" class="text-gray-700 hover:text-blue-600">Home</a>
-            <a href="#" class="text-gray-700 hover:text-blue-600">World</a>
-            <a href="#" class="text-gray-700 hover:text-blue-600">Tech</a>
-            <a href="#" class="text-gray-700 hover:text-blue-600">Business</a>
-            <a href="#" class="text-gray-700 hover:text-blue-600">Life</a>
-        </nav>
-    </div>
-</header>
-
-<!-- Alpine.js (only needed once in <head>) -->
-<script src="https://cdn.jsdelivr.net/npm/alpinejs@3.x.x/dist/cdn.min.js" defer></script>
-
+{% extends "base.html" %}
+{% block content %}
 <section class="max-w-7xl mx-auto p-4">
     <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 auto-rows-[100px] gap-2">
         <!-- 2x1 Featured Card with Carousel (600x300) -->
@@ -50,12 +24,14 @@
 
             <!-- Slide Content -->
             <template x-for="(slide, index) in slides" :key="index">
-                <div x-show="activeSlide === index" x-transition class="absolute inset-0 w-full h-full">
-                    <img :src="slide.image_url" alt="" class="w-full h-full object-cover">
-                    <div class="absolute bottom-0 left-0 right-0 bg-gradient-to-t from-black/70 to-transparent text-white p-4">
-                        <h3 class="text-lg font-semibold" x-text="slide.title"></h3>
+                <a :href="`/vn-vi/news/${slide.link}`" target="_blank" class="block col-span-1 row-span-1">
+                    <div x-show="activeSlide === index" x-transition class="absolute inset-0 w-full h-full">
+                        <img :src="slide.image_url" alt="" class="w-full h-full object-cover">
+                        <div class="absolute bottom-0 left-0 right-0 bg-gradient-to-t from-black/70 to-transparent text-white p-4">
+                            <h3 class="text-lg font-semibold" x-text="slide.title"></h3>
+                        </div>
                     </div>
-                </div>
+                </a>
             </template>
 
             <!-- Dot Controls -->
@@ -70,7 +46,7 @@
 
         {% for item in items %}
         {% if item.image_url and not item.is_long %}
-        <a href="{{ item.link }}" target="_blank" class="block col-span-1 row-span-1">
+        <a href="{{ url_for('detail', slug=item.link) }}" target="_blank" class="block col-span-1 row-span-1">
             <div class="bg-white rounded-xl shadow overflow-hidden h-full flex">
                 <!-- Left: logo + title -->
                 <div class="w-3/5 p-2 flex flex-col">
@@ -88,8 +64,10 @@
             </div>
         </a>
         {% elif item.image_url and item.is_long %}
-        <a href="{{ item.link }}" target="_blank"
+        <a href="{{ url_for('detail', slug=item.link) }}"
+           target="_blank"
            class="block col-span-1 sm:col-span-2 lg:col-span-2 row-span-3">
+            <!-- Link content here (e.g., image, title, etc.) -->
             <div class="bg-white rounded-xl shadow overflow-hidden h-full flex">
                 <!-- Left: logo + title -->
                 <div class="w-2/5 p-2 flex flex-col">
@@ -112,7 +90,7 @@
             </div>
         </a>
         {% elif not item.image_url%}
-        <a href="{{ item.link }}" target="_blank" class="block">
+        <a href="{{ url_for('detail', slug=item.link) }}" target="_blank" class="block">
             <div class="bg-white rounded-xl shadow overflow-hidden h-[100px] p-2 flex flex-col">
 
                 <!-- Row 1: Logo (3/5) and Chuyên mục (2/5) -->
@@ -137,27 +115,19 @@
         {% endif %}
         {% endfor %}
     </div>
-
-
 </section>
+<section
+        class="max-w-7xl mx-auto p-4"
+        x-data="newsFeed()"
+        x-init="init()"
+        @scroll.window="handleScroll"
+>
+    <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 auto-rows-[100px] gap-2" id="news-container">
+        <!-- existing items (first page) will already be rendered here by Jinja -->
+    </div>
 
-
-<!-- Categories -->
-<section class="max-w-7xl mx-auto p-4 mt-10">
-    <h2 class="text-xl font-semibold mb-4">Categories</h2>
-    <div class="grid grid-cols-2 md:grid-cols-5 gap-2">
-        <button class="bg-blue-100 text-blue-700 py-2 rounded-lg font-semibold hover:bg-blue-200">Politics</button>
-        <button class="bg-green-100 text-green-700 py-2 rounded-lg font-semibold hover:bg-green-200">Tech</button>
-        <button class="bg-yellow-100 text-yellow-700 py-2 rounded-lg font-semibold hover:bg-yellow-200">Finance</button>
-        <button class="bg-purple-100 text-purple-700 py-2 rounded-lg font-semibold hover:bg-purple-200">Health</button>
-        <button class="bg-pink-100 text-pink-700 py-2 rounded-lg font-semibold hover:bg-pink-200">Life</button>
+    <div class="text-center mt-4" x-show="loading">
+        <span class="text-sm text-gray-500">Loading more news...</span>
     </div>
 </section>
-
-<!-- Footer -->
-<footer class="bg-white mt-10 border-t py-6 text-center text-sm text-gray-500">
-    © 2025 MyNewsHub. All rights reserved.
-</footer>
-</body>
-</html>
-
+{% endblock %}
