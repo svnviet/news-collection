@@ -13,14 +13,6 @@ def is_media_content(article_url):
     return True if len(soup) > 0 else False
 
 
-def get_rss_list():
-    response = requests.get(vn_url + "rss")
-    soup = BeautifulSoup(response.content, "html.parser")
-    rss_wrap = soup.find("div", {"class": "wrap-list-rss"})
-    rss_list = [rss_data.get("href") for rss_data in rss_wrap.find_all("a")]
-    return rss_list
-
-
 def get_vn_express(rss_url, is_slide=False):
     # Load RSS feed
     response = requests.get(rss_url)

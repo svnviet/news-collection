@@ -27,7 +27,7 @@ def get_data():
 @app.route("/", methods=["GET"])
 def get_news():
     hot_news = get_vn_express("https://vnexpress.net/rss/thoi-su.rss", is_slide=True)
-    items = get_vn_express("https://vnexpress.net/rss/thoi-su.rss")[9:]
+    items = get_vn_express("https://vnexpress.net/rss/tin-moi-nhat.rss")[9:]
     category = request.args.get("the-loai")
     if category == "the-gioi":
         hot_news = get_vn_express("https://vnexpress.net/rss/the-gioi.rss", is_slide=True)
@@ -38,6 +38,7 @@ def get_news():
         hot_news=hot_news,
         items=items,
     )
+
 
 @app.route("/<path:theloai>", methods=["GET"])
 def get_news_by(theloai):
@@ -55,13 +56,20 @@ def get_news_by(theloai):
     )
 
 
-
 @app.route("/load_more", methods=["GET"])
 def load_more_news():
+    from sync.vnexpress import collection
     page = int(request.args.get("page", 1))
-    per_page = 4
-    all_items = get_vn_express("https://vnexpress.net/rss/tin-noi-bat.rss")
-    items = all_items[(page - 1) * per_page: page * per_page]
+    per_page = 12
+
+    # Get paginated data
+    cursor = collection.find().sort("_id", -1).skip((page - 1) * per_page).limit(per_page)
+
+    # Convert cursor to list of dicts (MongoDB documents aren't JSON-serializable by default)
+    items = []
+    for item in cursor:
+        item['_id'] = str(item['_id'])  # convert ObjectId to string
+        items.append(item)
 
     return jsonify(items)
 
@@ -71,10 +79,8 @@ def detail(slug):
     link = "https://vnexpress.net/" + slug
     if not link:
         return "Missing link", 400
-    # Parse the article detail (you'll need a parser here)
-    detail_data = get_article_detail(link)
-    detail_data["article_url"] = link
-
+    from sync.vnexpress import insert_or_get_detail
+    detail_data = insert_or_get_detail(link)
     item = get_vn_express("https://vnexpress.net/rss/tin-moi-nhat.rss")[1]
     return render_template("detail.html", article=detail_data, item=item)
 

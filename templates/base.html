@@ -1,9 +1,39 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="vi">
 <head>
     <meta charset="UTF-8"/>
     <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-    <title>SVN VI</title>
+    <title>Báo Tiếng Việt - Tin Tức Tổng Hợp</title>
+
+    <!-- SEO Meta Tags -->
+    <meta name="description"
+          content="Tin tức tổng hợp nhanh chóng và chính xác. Cập nhật liên tục các tin hot nhất về thế giới, công nghệ, kinh doanh và đời sống.">
+    <meta name="keywords" content="tin tức, báo chí, Việt Nam, thế giới, công nghệ, kinh doanh, đời sống, tin nhanh">
+    <meta name="author" content="Tin Tức Tổng Hợp">
+    <link rel="canonical" href="{{ request.url }}">
+
+    <!-- Open Graph / Facebook -->
+    <meta property="og:type" content="website">
+    <meta property="og:title" content="Báo Tiếng Việt - Tin Tức Tổng Hợp">
+    <meta property="og:description"
+          content="Tin tức tổng hợp nhanh chóng và chính xác. Cập nhật liên tục các tin hot nhất.">
+    <meta property="og:image" content="{{ url_for('static', filename='logo.png', _external=True) }}">
+    <meta property="og:url" content="{{ request.url }}">
+    <meta property="og:site_name" content="Tin Tức Tổng Hợp">
+
+    <!-- Twitter -->
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="Báo Tiếng Việt - Tin Tức Tổng Hợp">
+    <meta name="twitter:description" content="Tin tức tổng hợp nhanh chóng và chính xác.">
+    <meta name="twitter:image" content="{{ url_for('static', filename='logo.png', _external=True) }}">
+
+    <!-- Language -->
+    <meta http-equiv="Content-Language" content="vi">
+
+    <!-- Favicon -->
+    <link rel="icon" type="image/png" href="{{ url_for('static', filename='favicon.png') }}">
+
+    <!-- Tailwind & Alpine -->
     <script src="https://cdn.tailwindcss.com"></script>
     <script src="https://cdn.jsdelivr.net/npm/alpinejs@3.x.x/dist/cdn.min.js" defer></script>
 </head>
@@ -12,140 +42,34 @@
 <!-- Header -->
 <header class="bg-white shadow-md sticky top-0 z-10">
     <div class="max-w-7xl mx-auto px-4 py-4 flex justify-between items-center">
-        <a href="/">
-            <h1 class="text-2xl font-bold text-blue-600">SVN VI</h1>
+        <a href="/" class="flex items-center">
+            <div class="bg-red-600 text-yellow-400 font-bold text-2xl w-10 h-10 flex items-center justify-center rounded-full shadow">
+                N
+            </div>
+            <span class="text-sx font-semibold pt-5 px-1">Tin Tức Tổng Hợp</span>
         </a>
         <nav class="space-x-4">
             <a href="/" class="text-gray-700 hover:text-blue-600">Tổng hợp</a>
             <a href="{{ url_for('get_news_by', theloai='the-gioi') }}" class="text-gray-700 hover:text-blue-600">Thế
                 giới</a>
-            <a href="{{ url_for('get_news_by', theloai='the-gioi') }}" class="text-gray-700 hover:text-blue-600">Công
+            <a href="{{ url_for('get_news_by', theloai='cong-nghe') }}" class="text-gray-700 hover:text-blue-600">Công
                 nghệ</a>
-            <a href="{{ url_for('get_news_by', theloai='the-gioi') }}" class="text-gray-700 hover:text-blue-600">Kinh
+            <a href="{{ url_for('get_news_by', theloai='kinh-doanh') }}" class="text-gray-700 hover:text-blue-600">Kinh
                 doanh</a>
-            <a href="{{ url_for('get_news_by', theloai='the-gioi') }}" class="text-gray-700 hover:text-blue-600">Cuộc
+            <a href="{{ url_for('get_news_by', theloai='cuoc-song') }}" class="text-gray-700 hover:text-blue-600">Cuộc
                 sống</a>
         </nav>
     </div>
 </header>
 
-<!-- Alpine.js (only needed once in <head>) -->
-<script src="https://cdn.jsdelivr.net/npm/alpinejs@3.x.x/dist/cdn.min.js" defer></script>
-
 {% block content %}{% endblock %}
 
 <!-- Footer -->
 <footer class="bg-white mt-10 border-t py-6 text-center text-sm text-gray-500">
-    © 2025 SVN-VI. All rights reserved.
+    © 2025 Tin Tức Tổng Hợp. All rights reserved.
 </footer>
 
-<script>
-    function getContentNewsFeed(item) {
-        const a = document.createElement('a');
-        a.href = `/detail/${item.link}`;
-        a.target = '_blank';
-
-        if (item.image_url && !item.is_long) {
-            a.className = 'block col-span-1 row-span-1';
-            a.innerHTML = `
-            <div class="bg-white rounded-xl shadow overflow-hidden h-full flex">
-                <div class="w-3/5 p-2 flex flex-col">
-                    <div>
-                        <img src="/static/${item.source_logo_url}" alt="Source Logo" class="h-4 mb-1">
-                    </div>
-                    <h4 class="text-sm font-semibold line-clamp-3">${item.title}</h4>
-                </div>
-                <div class="w-2/5 p-2 flex items-center justify-center">
-                    <img src="${item.image_url}" alt="" class="w-full h-full object-cover border border-gray-300 rounded-md">
-                </div>
-            </div>
-        `;
-        } else if (item.image_url && item.is_long) {
-            a.className = 'block col-span-1 sm:col-span-2 lg:col-span-2 row-span-3';
-            a.innerHTML = `
-            <div class="bg-white rounded-xl shadow overflow-hidden h-full flex">
-                <div class="w-2/5 p-2 flex flex-col">
-                    <div>
-                        <img src="/static/${item.source_logo_url}" alt="Source Logo" class="h-4 mb-1">
-                    </div>
-                    <div class="pt-3">
-                        <h4 class="text-sm font-semibold line-clamp-3">${item.title}</h4>
-                    </div>
-                    <div class="pt-3">
-                        <h4 class="text-sx line-clamp-7">${stripTags(item.description || '')}</h4>
-                    </div>
-                </div>
-                <div class="w-3/5 p-2 flex items-center justify-center">
-                    <img src="${item.image_url}" alt="" class="w-full h-full object-cover border border-gray-300 rounded-md">
-                </div>
-            </div>
-        `;
-        } else {
-            a.className = 'block';
-            a.innerHTML = `
-            <div class="bg-white rounded-xl shadow overflow-hidden h-[100px] p-2 flex flex-col">
-                <div class="flex w-full">
-                    <div class="w-3/5 flex items-center">
-                        <img src="/static/${item.source_logo_url}" alt="Source Logo" class="h-4">
-                    </div>
-                    <div class="w-2/5 flex items-center justify-start">
-                        <h4 class="text-xs text-gray-600 line-clamp-1">Chuyên mục</h4>
-                    </div>
-                </div>
-                <div class="pt-5">
-                    <h4 class="text-sm font-semibold line-clamp-2">${item.title}</h4>
-                </div>
-            </div>
-        `;
-        }
-
-        return a;
-    }
-
-    function stripTags(html) {
-        const tmp = document.createElement('DIV');
-        tmp.innerHTML = html;
-        return tmp.textContent || tmp.innerText || '';
-    }
-
-    function newsFeed() {
-        return {
-            page: 2,
-            loading: false,
-            end: false,
-            async init() {
-                // already loaded page 1 via server-side rendering
-            },
-            async loadMore() {
-                if (this.loading || this.end) return;
-                this.loading = true;
-                try {
-                    const res = await fetch(`/load_more?page=${this.page}`);
-                    const data = await res.json();
-                    if (!data.length) {
-                        this.end = true;
-                        return;
-                    }
-                    const container = document.getElementById("news-container");
-                    data.forEach(item => {
-                        // const div = document.createElement("div");
-                        const newsFeedElement = getContentNewsFeed(item);
-                        container.appendChild(newsFeedElement);
-                    });
-                    this.page++;
-                } finally {
-                    this.loading = false;
-                }
-            },
-            handleScroll() {
-                if ((window.innerHeight + window.scrollY) >= (document.body.offsetHeight - 300)) {
-                    this.loadMore();
-                }
-            }
-        }
-    }
-</script>
+<script src="{{ url_for('static', filename='vn-vi.js') }}"></script>
 
 </body>
 </html>
-
