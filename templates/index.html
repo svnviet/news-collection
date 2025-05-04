@@ -1,4 +1,36 @@
 {% extends "base.html" %}
+
+{% block head %}
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>Báo Tiếng Việt - Tin Tức Tổng Hợp</title>
+
+<!-- SEO Meta Tags -->
+<meta name="description"
+      content="Tin tức tổng hợp nhanh chóng và chính xác. Cập nhật liên tục các tin hot nhất về thế giới, công nghệ, kinh doanh và đời sống.">
+<meta name="keywords" content="tin tức, báo chí, Việt Nam, thế giới, công nghệ, kinh doanh, đời sống, tin nhanh">
+<meta name="author" content="Tin Tức Tổng Hợp">
+<link rel="canonical" href="{{ request.url }}">
+
+<!-- Open Graph / Facebook -->
+<meta property="og:type" content="website">
+<meta property="og:title" content="Báo Tiếng Việt - Tin Tức Tổng Hợp">
+<meta property="og:description"
+      content="Tin tức tổng hợp nhanh chóng và chính xác. Cập nhật liên tục các tin hot nhất.">
+<meta property="og:image" content="{{ url_for('static', filename='logo.png', _external=True) }}">
+<meta property="og:url" content="{{ request.url }}">
+<meta property="og:site_name" content="Tin Tức Tổng Hợp">
+
+<!-- Twitter -->
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="Báo Tiếng Việt - Tin Tức Tổng Hợp">
+<meta name="twitter:description" content="Tin tức tổng hợp nhanh chóng và chính xác.">
+<meta name="twitter:image" content="{{ url_for('static', filename='logo.png', _external=True) }}">
+
+<!-- Language -->
+<meta http-equiv="Content-Language" content="vi">
+{% endblock %}
+
 {% block content %}
 <section class="max-w-7xl mx-auto p-4">
     <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 auto-rows-[100px] gap-2">

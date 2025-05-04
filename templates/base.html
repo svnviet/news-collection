@@ -1,42 +1,15 @@
 <!DOCTYPE html>
 <html lang="vi">
-<head>
-    <meta charset="UTF-8"/>
-    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-    <title>Báo Tiếng Việt - Tin Tức Tổng Hợp</title>
-
-    <!-- SEO Meta Tags -->
-    <meta name="description"
-          content="Tin tức tổng hợp nhanh chóng và chính xác. Cập nhật liên tục các tin hot nhất về thế giới, công nghệ, kinh doanh và đời sống.">
-    <meta name="keywords" content="tin tức, báo chí, Việt Nam, thế giới, công nghệ, kinh doanh, đời sống, tin nhanh">
-    <meta name="author" content="Tin Tức Tổng Hợp">
-    <link rel="canonical" href="{{ request.url }}">
-
-    <!-- Open Graph / Facebook -->
-    <meta property="og:type" content="website">
-    <meta property="og:title" content="Báo Tiếng Việt - Tin Tức Tổng Hợp">
-    <meta property="og:description"
-          content="Tin tức tổng hợp nhanh chóng và chính xác. Cập nhật liên tục các tin hot nhất.">
-    <meta property="og:image" content="{{ url_for('static', filename='logo.png', _external=True) }}">
-    <meta property="og:url" content="{{ request.url }}">
-    <meta property="og:site_name" content="Tin Tức Tổng Hợp">
-
-    <!-- Twitter -->
-    <meta name="twitter:card" content="summary_large_image">
-    <meta name="twitter:title" content="Báo Tiếng Việt - Tin Tức Tổng Hợp">
-    <meta name="twitter:description" content="Tin tức tổng hợp nhanh chóng và chính xác.">
-    <meta name="twitter:image" content="{{ url_for('static', filename='logo.png', _external=True) }}">
-
-    <!-- Language -->
-    <meta http-equiv="Content-Language" content="vi">
-
+<header>
+    {% block head %}
+    {% endblock %}
     <!-- Favicon -->
     <link rel="icon" type="image/png" href="{{ url_for('static', filename='favicon.png') }}">
 
     <!-- Tailwind & Alpine -->
     <script src="https://cdn.tailwindcss.com"></script>
     <script src="https://cdn.jsdelivr.net/npm/alpinejs@3.x.x/dist/cdn.min.js" defer></script>
-</head>
+</header>
 <body class="bg-gray-100 text-gray-800">
 
 <!-- Header -->

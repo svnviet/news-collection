@@ -1,0 +1,72 @@
+.prose a {
+    color: #3b82f6; /* Tailwind's blue-500 color */
+    text-decoration: underline;
+}
+
+.fck_detail .Normal, .fck_detail p {
+    margin: 0 0 1em;
+}
+
+.fck_detail figure.tplCaption img {
+    max-height: 700px;
+}
+
+.container {
+    width: 100%;
+    max-width: 1130px;
+    padding: 0 15px;
+    margin: 0 auto;
+    position: relative;
+}
+
+.page-detail .sidebar-1 {
+    width: 100%;
+    max-width: calc(100% - 420px);
+}
+
+.Image {
+    font: 400 14px arial;
+    line-height: 160%;
+    color: #222;
+    padding: 10px 0 0 0;
+    margin: 0;
+    text-align: left;
+}
+
+.fck_detail figure.tplCaption .fig-picture {
+    width: 100%;
+    float: left;
+    display: table;
+    -webkit-box-pack: center;
+    -ms-flex-pack: center;
+    justify-content: center;
+    background: #f0eeea;
+    text-align: center;
+}
+
+figure {
+    margin: 0 auto 20px;
+    max-width: 100%;
+    clear: both;
+}
+
+.fck_detail figure.tplCaption {
+    width: 100%;
+    float: left;
+    position: relative;
+    margin-bottom: 15px;
+}
+
+.fck_detail .tplCaption {
+    text-align: center;
+}
+
+*, ::before, ::after {
+    box-sizing: unset; /* resets everything */
+}
+
+.fck_detail figure.tplCaption figcaption {
+    width: 100%;
+    float: left;
+    text-align: left;
+}
