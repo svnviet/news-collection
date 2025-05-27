@@ -265,7 +265,6 @@ def get_item(id=None, link=None):
         item = collection.aggregate([{'$sample': {'size': 1}}]).next()
 
     item['_id'] = str(item['_id'])
-    # item['source_logo_url'] = 'logo/vne_logo_rss.png'
     return item
 
 
@@ -301,7 +300,7 @@ def get_related_hot_items(page=None, per_page=20):
     max_slide_count = 10
     for item in hot_items:
         item['_id'] = str(item['_id'])  # convert ObjectId to string
-        if not item.image_url:
+        if not item['image_url']:
             continue
         slide_count += 1
         items.append(item)
