@@ -1,0 +1,74 @@
+<div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 auto-rows-[100px] gap-2">
+    <!-- 2x1 Featured Card with Carousel (600x300) -->
+    {% include "components/hot-news.html" %}
+
+    {% for item in items %}
+    {% if item.image_url and not item.is_long %}
+    <a href="{{ url_for('detail', slug=item.link) }}" class="block col-span-1 row-span-1">
+        <div class="bg-white rounded-xl shadow overflow-hidden h-full flex">
+            <!-- Left: logo + title -->
+            <div class="w-3/5 p-2 flex flex-col">
+                <div>
+                    <img src="{{ url_for('static', filename=item.source_logo_url) }}" alt="Source Logo"
+                         class="h-4 mb-1">
+                </div>
+                <h4 class="text-sm font-semibold line-clamp-3">{{ item.title }}</h4>
+            </div>
+            <!-- Right: image -->
+            <div class="w-2/5 p-2 flex items-center justify-center">
+                <img src="{{ item.image_url }}" alt=""
+                     class="w-full h-full object-cover border border-gray-300 rounded-md">
+            </div>
+        </div>
+    </a>
+    {% elif item.image_url and item.is_long %}
+    <a href="{{ url_for('detail', slug=item.link) }}"
+       target="_blank"
+       class="block col-span-1 sm:col-span-2 lg:col-span-2 row-span-3">
+        <!-- Link content here (e.g., image, title, etc.) -->
+        <div class="bg-white rounded-xl shadow overflow-hidden h-full flex">
+            <!-- Left: logo + title -->
+            <div class="w-2/5 p-2 flex flex-col">
+                <div>
+                    <img src="{{ url_for('static', filename=item.source_logo_url) }}" alt="Source Logo"
+                         class="h-4 mb-1">
+                </div>
+                <div class="pt-3">
+                    <h4 class="text-sm font-semibold line-clamp-3">{{ item.title }}</h4>
+                </div>
+                <div class="pt-3">
+                    <h4 class="text-sx line-clamp-7">{{ item.description | striptags}}</h4>
+                </div>
+            </div>
+            <!-- Right: image -->
+            <div class="w-3/5 p-2 flex items-center justify-center">
+                <img src="{{ item.image_url }}" alt=""
+                     class="w-full h-full object-cover border border-gray-300 rounded-md">
+            </div>
+        </div>
+    </a>
+    {% elif not item.image_url%}
+    <a href="{{ url_for('detail', slug=item.link) }}" class="block">
+        <div class="bg-white rounded-xl shadow overflow-hidden h-[100px] p-2 flex flex-col">
+
+            <!-- Row 1: Logo (3/5) and Chuyên mục (2/5) -->
+            <div class="flex w-full">
+                <!-- Logo: 3/5 -->
+                <div class="w-3/5 flex items-center">
+                    <img src="{{ url_for('static', filename=item.source_logo_url) }}" alt="Source Logo" class="h-4">
+                </div>
+                <!-- Chuyên mục: 2/5 -->
+                <div class="w-2/5 flex items-center justify-start">
+                    <h4 class="text-xs text-gray-600 line-clamp-1">Chuyên mục</h4>
+                </div>
+            </div>
+
+            <!-- Row 2: Title -->
+            <div class="pt-5">
+                <h4 class="text-sm font-semibold line-clamp-2">{{ item.title }}</h4>
+            </div>
+        </div>
+    </a>
+    {% endif %}
+    {% endfor %}
+</div>

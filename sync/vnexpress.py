@@ -8,6 +8,7 @@ mongo_uri = MONGO_URI
 client = MongoClient(mongo_uri)
 db = client["vn-news"]  # Create or connect to a database
 collection = db["vn-express"]  # Create or connect to a collection
+collection.create_index("src_id", unique=True)
 collection_detail = db["vn-express-detail"]
 
 vn_url = "https://vnexpress.net/"
@@ -52,6 +53,10 @@ def insert_rss(rss_url, src_ids=[]):
         src_id = get_id_from_url(link)
         if src_id in src_ids:
             continue
+
+        article = collection_detail.find_one({"src_id": src_id})
+        if article:
+            return article
         src_ids.append(src_id)
         category = get_category_from_url(rss_url)
 
@@ -212,6 +217,7 @@ def insert_or_get_detail(link):
         "content": content_html,
         "published_at": published_at,
         "article_url": link,
+        "source_logo_url": "logo/vne_logo_rss.png"
     }
     try:
         if data:
@@ -221,11 +227,3 @@ def insert_or_get_detail(link):
     except BulkWriteError as bwe:
         inserted_count = bwe.details.get("nInserted", 0)
         print(f"Inserted error {inserted_count} new item.")
-
-# rss_list = get_rss_list()
-# src_ids = []
-#
-# for rss_url in rss_list:
-#     if rss_url == "/rss/tin-moi-nhat.rss":
-#         continue
-#     insert_rss(vn_url + rss_url, src_ids)

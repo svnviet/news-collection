@@ -102,6 +102,57 @@ function newsFeed() {
     }
 }
 
+function newsDetailFeed() {
+    return {
+        page: 0,
+        loading: false,
+        end: false,
+
+        async init_detail_feed() {
+            await this.addElement();
+        },
+
+        async loadMore() {
+            if (this.loading || this.end) return;
+            this.loading = true;
+            try {
+                for (let i = 0; i < 2; i++) {
+                    await this.addElement();
+                }
+            } catch (e) {
+                console.error("Failed to load combined feed:", e);
+            } finally {
+                this.loading = false;
+            }
+        },
+
+        async addElement() {
+            const res = await fetch(`/load_related?page=${this.page}`);
+            const data = await res.json();
+
+            if (!data.news_html.trim() && !data.consumption_html.trim()) {
+                this.end = true;
+                return;
+            }
+
+            const wrapper = document.createElement("section");
+            wrapper.innerHTML = `
+                    <section class="max-w-7xl mx-auto p-4">${data.news_html}</section>
+                    <section class="container">${data.consumption_html}</section>
+                `;
+            document.getElementById("news-detail-feed").appendChild(wrapper);
+            this.page++;
+        },
+
+        handleScroll() {
+            if ((window.innerHeight + window.scrollY) >= (document.body.offsetHeight - 300)) {
+                this.loadMore();
+            }
+        }
+    }
+}
+
+
 function thoiGianTruoc(dateStr) {
     const date = new Date(dateStr);
     const now = new Date();

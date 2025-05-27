@@ -1,5 +1,6 @@
 import requests
 from bs4 import BeautifulSoup
+from sync.vnexpress import collection
 
 vn_url = "https://vnexpress.net/"
 base_url = "http://127.0.0.1:5000/"
@@ -253,3 +254,59 @@ def save_get_bs(content, attribute):
         return content.get(attribute)
     except AttributeError:
         return ""
+
+
+def get_item(id=None, link=None):
+    if id:
+        item = collection.find_one({'_id': id})
+    elif link:
+        item = collection.find_one({'link': link})
+    else:
+        item = collection.aggregate([{'$sample': {'size': 1}}]).next()
+
+    item['_id'] = str(item['_id'])
+    # item['source_logo_url'] = 'logo/vne_logo_rss.png'
+    return item
+
+
+def get_items(page=1, per_page=14):
+    # Get paginated data
+    cursor = collection.find().sort("_id", -1).skip((page - 1) * per_page).limit(per_page)
+
+    # Convert cursor to list of dicts (MongoDB documents aren't JSON-serializable by default)
+    items = []
+    for item in cursor:
+        item['_id'] = str(item['_id'])  # convert ObjectId to string
+        items.append(item)
+
+    return items
+
+
+def get_related_items(page=None, per_page=14):
+    cursor = collection.aggregate([
+        {"$sample": {"size": per_page}}
+    ])
+    items = []
+    for item in cursor:
+        item['_id'] = str(item['_id'])  # convert ObjectId to string
+        items.append(item)
+
+    return items
+
+
+def get_related_hot_items(page=None, per_page=20):
+    hot_items = get_related_items(per_page=per_page)
+    items = []
+    slide_count = 1
+    max_slide_count = 10
+    for item in hot_items:
+        item['_id'] = str(item['_id'])  # convert ObjectId to string
+        if not item.image_url:
+            continue
+        slide_count += 1
+        items.append(item)
+
+        if slide_count > max_slide_count:
+            break
+
+    return items

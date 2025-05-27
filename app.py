@@ -1,6 +1,6 @@
 from flask import Flask, request, jsonify, render_template
 from pymongo import MongoClient
-from services import get_vn_express, get_article_detail
+from services import get_vn_express, get_article_detail, get_items, get_item, get_related_items, get_related_hot_items
 
 app = Flask(__name__)
 
@@ -82,7 +82,29 @@ def detail(slug):
     from sync.vnexpress import insert_or_get_detail
     detail_data = insert_or_get_detail(link)
     item = get_vn_express("https://vnexpress.net/rss/tin-moi-nhat.rss")[1]
-    return render_template("detail.html", article=detail_data, item=item)
+    items = get_items()
+    hot_news = get_vn_express("https://vnexpress.net/rss/thoi-su.rss", is_slide=True)
+    return render_template("detail.html", article=detail_data, hot_news=hot_news, items=items, item=item)
+
+
+@app.route("/load_related", methods=["GET"])
+def detail_related_news():
+    items = get_related_items()
+    hot_news = get_related_hot_items()
+    detail_news = get_item()
+    from sync.vnexpress import insert_or_get_detail
+    link = "https://vnexpress.net/" + detail_news['link']
+    detail_news = insert_or_get_detail(link)
+
+    news_html = render_template("components/detail/news-feed.html",
+                                items=items,
+                                hot_news=hot_news, )
+    consumption_html = render_template("components/detail/consumption-feed-content.html", article_rd=detail_news, )
+
+    return jsonify({
+        "news_html": news_html,
+        "consumption_html": consumption_html
+    })
 
 
 if __name__ == "__main__":
