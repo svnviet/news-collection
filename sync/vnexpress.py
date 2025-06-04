@@ -7,6 +7,7 @@ MONGO_URI = "mongodb://localhost:27017/vn-news"
 mongo_uri = MONGO_URI
 client = MongoClient(mongo_uri)
 db = client["vn-news"]  # Create or connect to a database
+news_collection = db["vn-news"]
 collection = db["vn-express"]  # Create or connect to a collection
 collection.create_index("src_id", unique=True)
 collection_detail = db["vn-express-detail"]
@@ -40,6 +41,7 @@ def insert_rss(rss_url, src_ids=[]):
     soup = BeautifulSoup(response.content, "xml")
 
     data = []
+    src_data = []
     for idx, item in enumerate(soup.find_all("item")):
         title = item.title.text
         link = item.link.text.replace(vn_url, "")
@@ -71,13 +73,26 @@ def insert_rss(rss_url, src_ids=[]):
             "published": published,
             "category": category,
         }
+
+        src_row = {
+            "title": title,
+            "link": link,
+            "image_url": image_url,
+            "source_logo_url": "logo/vne_logo_rss.png",
+            "source_type": "VNExpress",
+            "description": description,
+            "published": published,
+            "category": category,
+        }
         if not row:
             continue
 
         data.append(row)
+        src_data.append(src_row)
     try:
         if data:
             result = collection.insert_many(data, ordered=False)
+            news_collection.insert_many(src_data, ordered=False)
             print(f"RSS {rss_url}")
             print(f"Inserted {len(result.inserted_ids)} new items.")
     except BulkWriteError as bwe:
