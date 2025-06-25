@@ -39,11 +39,14 @@
                 <img src="{{ url_for('static', filename=item.source_logo_url) }}" alt="Source Logo"
                      class="h-15 mb-1">
             </div>
-            <h2 class="text-2xl font-semibold mb-4">{{ article.title }}</h2>
+            <h1 class="text-2xl font-semibold mb-4">{{ article.title }}</h1>
             {% if article.author %}
             <p class="text-sm text-gray-500 text-left"><span>Bài viết của </span>{{ article.author|safe }}</p>
             {% endif %}
             <p class="text-sm text-gray-500 mb-4 text-right">{{ article.published_at }}</p>
+
+            <div class="mb-[15px]">{{ article.description | safe }}</div>
+
             <div class="prose max-w-none">
                 {{ article.content | safe }}
             </div>

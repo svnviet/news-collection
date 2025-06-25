@@ -8,7 +8,7 @@ mongo_uri = MONGO_URI
 client = MongoClient(mongo_uri)
 db = client["vn-news"]  # Create or connect to a database
 news_collection = db["vn-news"]
-collection = db["vn-express"]  # Create or connect to a collection
+collection = db["vn-news"]  # Create or connect to a collection
 collection.create_index("src_id", unique=True)
 collection_detail = db["vn-express-detail"]
 
@@ -242,3 +242,8 @@ def insert_or_get_detail(link):
     except BulkWriteError as bwe:
         inserted_count = bwe.details.get("nInserted", 0)
         print(f"Inserted error {inserted_count} new item.")
+
+if __name__ == "__main__":
+    rss_lst = get_rss_list()
+    for link in rss_lst:
+        insert_rss(vn_url + link)

@@ -1,10 +1,85 @@
+import random
+from datetime import datetime, timedelta
+
 import requests
 from bs4 import BeautifulSoup
+from pymongo import MongoClient
+
 from sync.vnexpress import collection
 
 vn_url = "https://vnexpress.net/"
 base_url = "http://127.0.0.1:5000/"
 detail_url = "http://127.0.0.1:5000/vn-vi/news/"
+
+
+class NewsService:
+    MONGO_URI = "mongodb://localhost:27017/vn-news"
+    mongo_uri = MONGO_URI
+    client = MongoClient(mongo_uri)
+    db = client["vn-news"]  # Create or connect to a database
+    news_collection = db["vn-news"]
+
+    def __init__(self):
+        pass
+
+    def get_news(self):
+        news = self.get_news_home()
+        data = []
+        hot_news = []
+        max_slide_count = 10
+        slide_count = 0
+        for idx, item in enumerate(news):
+            description = item.get("description")
+            desc_soup = BeautifulSoup(description, "html.parser")
+            img_tag = desc_soup.find("img")
+            image_url = img_tag["src"] if img_tag else None
+            item.update({"image_url": image_url})
+            if image_url and slide_count < max_slide_count:
+                slide_count += 1
+                hot_news.append(item)
+            else:
+                data.append(item)
+        return data, hot_news
+
+    def get_news_home(self, limit=80):
+        today = datetime.now()
+        yesterday = today - timedelta(days=1)
+        md_day = (yesterday - timedelta(days=1))
+
+        # Format both days as "Day, DD Mon YYYY"
+        today_prefix = today.strftime("%d %b %Y")
+        yesterday_prefix = yesterday.strftime("%d %b %Y")
+        md_day_prefix = md_day.strftime("%d %b %Y")
+
+        pipeline = [
+            {
+                "$match": {
+                    "$or": [
+                        {"published": {"$regex": today_prefix, "$options": "i"}},
+                        {"published": {"$regex": yesterday_prefix, "$options": "i"}},
+                        {"published": {"$regex": md_day_prefix, "$options": "i"}},
+                    ]
+                }
+            },
+            {"$sort": {"published": -1}},  # Optional: newest first
+            {
+                "$group": {
+                    "_id": "$source_type",
+                    "top_news": {"$push": "$$ROOT"}
+                }
+            },
+            {
+                "$project": {
+                    "top_news": {"$slice": ["$top_news", 40]}
+                }
+            }
+        ]
+
+        # Flatten the result into a single list
+        grouped = list(self.news_collection.aggregate(pipeline))
+        news = [item for group in grouped for item in group["top_news"]]
+        random.shuffle(news)
+        return news
 
 
 def is_media_content(article_url):

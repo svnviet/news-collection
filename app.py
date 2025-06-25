@@ -1,6 +1,7 @@
 from flask import Flask, request, jsonify, render_template
 from pymongo import MongoClient
-from services import get_vn_express, get_article_detail, get_items, get_item, get_related_items, get_related_hot_items
+from services import get_vn_express, get_article_detail, get_items, get_item, get_related_items, get_related_hot_items, \
+    NewsService
 
 app = Flask(__name__)
 
@@ -9,7 +10,7 @@ mongo_uri = "mongodb://localhost:27017"
 client = MongoClient(mongo_uri)
 db = client["vi"]  # Create or connect to a database
 collection = db["news"]  # Create or connect to a collection
-
+news_service = NewsService()
 
 @app.route("/get", methods=["GET"])
 def get_data():
@@ -19,8 +20,7 @@ def get_data():
 
 @app.route("/", methods=["GET"])
 def get_news():
-    hot_news = get_vn_express("https://vnexpress.net/rss/thoi-su.rss", is_slide=True)
-    items = get_vn_express("https://vnexpress.net/rss/tin-moi-nhat.rss")[9:]
+    items, hot_news = news_service.get_news()
     category = request.args.get("the-loai")
     if category == "the-gioi":
         hot_news = get_vn_express("https://vnexpress.net/rss/the-gioi.rss", is_slide=True)
@@ -37,7 +37,6 @@ def get_news():
 def get_news_by(theloai):
     hot_news = get_vn_express("https://vnexpress.net/rss/the-gioi.rss", is_slide=True)
     items = get_vn_express("https://vnexpress.net/rss/the-gioi.rss")[9:]
-
     if theloai == "the-gioi":
         hot_news = get_vn_express("https://vnexpress.net/rss/the-gioi.rss", is_slide=True)
         items = get_vn_express("https://vnexpress.net/rss/the-gioi.rss")[9:]
@@ -67,16 +66,20 @@ def load_more_news():
     return jsonify(items)
 
 
-@app.route('/vn-vi/news/<path:slug>', methods=['GET'])
-def detail(slug):
-    link = "https://vnexpress.net/" + slug
+@app.route('/vn-vi/<path:source>/<path:slug>', methods=['GET'])
+def detail(slug, source):
+    if not source:
+        return "Missing link", 400
+
+    if source == "VNExpress":
+        link = "https://vnexpress.net/" + slug
+    if source == "NLD":
+        link = "https://nld.com.vn/" + slug
     if not link:
         return "Missing link", 400
     from sync.vnexpress import insert_or_get_detail
     detail_data = insert_or_get_detail(link)
-    item = get_vn_express("https://vnexpress.net/rss/tin-moi-nhat.rss")[1]
-    items = get_items()
-    hot_news = get_vn_express("https://vnexpress.net/rss/thoi-su.rss", is_slide=True)
+    items, hot_news = news_service.get_news()
     return render_template("detail.html", article=detail_data, hot_news=hot_news, items=items, item=item)
 
 

@@ -57,7 +57,7 @@
             </div>
         </a>
         {% elif item.image_url and item.is_long %}
-        <a href="{{ url_for('detail', slug=item.link) }}"
+        <a href="{{ url_for('detail', slug=item.link, source=item.source_type) }}"
            target="_blank"
            class="block col-span-1 sm:col-span-2 lg:col-span-2 row-span-3">
             <!-- Link content here (e.g., image, title, etc.) -->
