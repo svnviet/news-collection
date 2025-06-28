@@ -14,7 +14,7 @@ collection_detail = db["vn-express-detail"]
 
 vn_url = "https://vnexpress.net/"
 base_url = "http://127.0.0.1:5000/"
-detail_url = "http://127.0.0.1:5000/vn-vi/news/"
+detail_url = "http://127.0.0.1:5000/vn-vi/VNExpress/"
 
 
 def get_rss_list():
@@ -195,6 +195,8 @@ def insert_or_get_detail(link):
     description = soup.find("p", class_="description")
     description = str(description) if description else None
     content_div = soup.select_one(".fck_detail")
+    if content_div is None:
+        return None
 
     slide_show_tag = soup.find_all("div", class_="item_slide_show")
     video_show_tag = soup.find_all("div", class_="wrap_video")

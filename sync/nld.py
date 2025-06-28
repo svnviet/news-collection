@@ -4,7 +4,7 @@ import requests
 from bs4 import BeautifulSoup
 from pymongo import MongoClient
 from pymongo.errors import BulkWriteError
-from base import SyncBase
+from .base import SyncBase
 import urllib3
 
 # Suppress only InsecureRequestWarning
@@ -120,6 +120,7 @@ class SyncNLD(SyncBase):
         soup = BeautifulSoup(resp.text, 'html.parser')
         src_id = self.get_id_from_url(link)
         article = collection_detail.find_one({"src_id": src_id})
+        print(src_id)
         if article:
             return article
 
@@ -162,7 +163,7 @@ class SyncNLD(SyncBase):
             "src_id": src_id,
             "title": title,
             "author": author,
-            "description": description,
+            "description": str(description),
             "content": str(content_html),
             "published_at": published_at,
             "article_url": link,
@@ -171,6 +172,7 @@ class SyncNLD(SyncBase):
 
         try:
             if data:
+                print(data)
                 result = collection_detail.insert_one(data)
                 print(f"Inserted id{(result.inserted_id)} new items.")
                 return collection_detail.find_one({"src_id": src_id})
@@ -181,13 +183,13 @@ class SyncNLD(SyncBase):
 
 if __name__ == "__main__":
     m = SyncNLD()
-    # m.insert_rss_all()
-    records = collection.find({"source_type": "NLD"})
+    m.insert_rss_all()
+    # records = collection.find({"source_type": "NLD"})
     # link = "https://nld.com.vn/hai-nguoi-dan-bac-lieu-trung-10-to-ve-so-giai-doc-dac-196250611131143485.htm"
     # m.insert_or_get_detail(link)
-    for record in records:
-        link = record["link"]
-        if "https://" in link:
-            m.insert_or_get_detail(link, True)
-        else:
-            m.insert_or_get_detail(vn_url + link)
+    # for record in records:
+    #     link = record["link"]
+    #     if "https://" in link:
+    #         m.insert_or_get_detail(link, True)
+    #     else:
+    #         m.insert_or_get_detail(vn_url + link)

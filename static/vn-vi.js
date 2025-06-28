@@ -1,6 +1,6 @@
 function getContentNewsFeed(item) {
     const a = document.createElement('a');
-    a.href = `/vn-vi/news/${item.link}`;
+    a.href = `/vn-vi/${item.source_type}/${item.link}`;
     a.target = '_blank';
 
     if (item.image_url && !item.is_long) {

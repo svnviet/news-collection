@@ -39,7 +39,7 @@
 
         {% for item in items %}
         {% if item.image_url and not item.is_long %}
-        <a href="{{ url_for('detail', slug=item.link) }}" target="_blank" class="block col-span-1 row-span-1">
+        <a href="{{ url_for('detail', slug=item.link, source=item.source_type) }}" target="_blank" class="block col-span-1 row-span-1">
             <div class="bg-white rounded-xl shadow overflow-hidden h-full flex">
                 <!-- Left: logo + title -->
                 <div class="w-3/5 p-2 flex flex-col">
@@ -83,7 +83,7 @@
             </div>
         </a>
         {% elif not item.image_url%}
-        <a href="{{ url_for('detail', slug=item.link) }}" target="_blank" class="block">
+        <a  href="{{ url_for('detail', slug=item.link, source=item.source_type) }}" target="_blank" class="block">
             <div class="bg-white rounded-xl shadow overflow-hidden h-[100px] p-2 flex flex-col">
 
                 <!-- Row 1: Logo (3/5) and Chuyên mục (2/5) -->
