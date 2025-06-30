@@ -89,16 +89,33 @@ class NewsService:
         elif source == "NLD":
             link = "https://nld.com.vn/" + slug
             detail_data = sync_nld.insert_or_get_detail(link)
-
         return link, detail_data
 
-    def get_news_related(self):
-        news = self._get_news_related()
+    def get_news_related(self, page, per_page):
+        merged_articles = []
+        source_types = sync_nld.source_types
+        per_page_s = per_page // len(source_types)
+
+        for source in source_types:
+            articles = self._get_news_by_source(source, page, per_page_s)
+            merged_articles.extend(articles)
+
+        random.shuffle(merged_articles)
+
         data = []
         hot_news = []
         max_slide_count = 5
         slide_count = 0
-        for idx, item in enumerate(news):
+        main_item = None
+        for idx, item in enumerate(merged_articles):
+            if main_item is None:
+                try:
+                    _, detail_news = self.get_detail(item['link'], item['source_type'])
+                    if detail_news:
+                        main_item = detail_news
+                        continue
+                except Exception:
+                    pass
             description = item.get("description")
             desc_soup = BeautifulSoup(description, "html.parser")
             img_tag = desc_soup.find("img")
@@ -111,7 +128,8 @@ class NewsService:
                     hot_news.append(item)
             else:
                 data.append(item)
-        return data, hot_news
+
+        return data, hot_news, main_item
 
     def _get_news_related(self, limit=10):
         pipeline = [

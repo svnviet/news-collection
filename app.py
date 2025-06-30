@@ -77,19 +77,17 @@ def detail(slug, source):
 
 @app.route("/load_related", methods=["GET"])
 def detail_related_news():
-    items, hot_news = news_service.get_news_related()
-    item = items[-1]
-    try:
-        detail_news = news_service.get_detail(item['link'], item['source_type'])
-    except AttributeError:
-        detail_news = None
+    page = int(request.args.get("page", 1)) + 1
+    per_page = 20
+
+    items, hot_news, item = news_service.get_news_related(page, per_page)
 
     news_html = render_template(
         "components/detail/news-feed.html",
         items=items,
         hot_news=hot_news,
     )
-    consumption_html = render_template("components/detail/consumption-feed-content.html", article_rd=detail_news, )
+    consumption_html = render_template("components/detail/consumption-feed-content.html", article_rd=item, )
 
     return jsonify({
         "news_html": news_html,
