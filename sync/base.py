@@ -12,6 +12,8 @@ class SyncBase:
     client = MongoClient(mongo_uri)
     db = client["vn-news"]  # Create or connect to a database
     news_collection = db["vn-news"]
+    news_errors = ["ads", "removed", "podcast", "video"]
+    source_types = ["VNExpress", "NLD"]
 
     def __init__(self, rss_url, local_url):
         self.rss_url = rss_url

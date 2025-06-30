@@ -1,5 +1,3 @@
-import os
-
 import requests
 from bs4 import BeautifulSoup
 from pymongo import MongoClient
@@ -82,6 +80,8 @@ class SyncNLD(SyncBase):
             src_id = self.get_id_from_url(link)
             article = collection_detail.find_one({"src_id": src_id})
             if article:
+                if article.get("type", None) in self.news_errors:
+                    raise Exception("News errors")
                 return article
             src_ids.append(src_id)
             category = self.get_category_from_url(rss_url)
@@ -129,23 +129,23 @@ class SyncNLD(SyncBase):
 
         if ads:
             collection.update_one({"src_id": src_id}, {"$set": {"type": "ads"}})
-            return None
+            raise Exception("News Error!")
 
         header_video_div = soup.find("div", class_="header__video")
         if header_video_div:
             collection.update_one({"src_id": src_id}, {"$set": {"type": "video"}})
-            return None
+            raise Exception("News Error!")
 
         podcast_player = soup.find("div", class_="player-funcs")
         if podcast_player:
             collection.update_one({"src_id": src_id}, {"$set": {"type": "podcast"}})
-            return None
+            raise Exception("News Error!")
 
         try:
             title = soup.find("h1").get_text(strip=True)
         except AttributeError:
             collection.update_one({"src_id": src_id}, {"$set": {"type": "removed"}})
-            return None
+            raise Exception("News Error!")
 
         content = soup.find("div", class_="detail__cmain-main")
         category = soup.find("div", class_="detail-cate")

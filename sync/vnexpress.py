@@ -186,11 +186,14 @@ def insert_or_get_detail(link):
 
     title = soup.find("h1").get_text(strip=True)
     article_end = soup.find('span', id='article-end')
-    if article_end is None:
-        author = None
-    else:
+    author = soup.find('p', id='author')
+    if author:
+        author = author.get_text(strip=True)
+    elif article_end:
         p_tag = article_end.find_previous_sibling('p')
         author = p_tag.decode_contents() if p_tag else None
+    else:
+        author = ""
 
     description = soup.find("p", class_="description")
     description = str(description) if description else None

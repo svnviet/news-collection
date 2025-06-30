@@ -3489,3 +3489,7 @@ figure {
         line-height: 160%
     }
 }
+
+[data-role=content] p {
+    margin-bottom: 24px;
+}

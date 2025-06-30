@@ -18,7 +18,7 @@
 >
 
     <!-- Slide Content -->
-    <template x-for="(slide.source_type, index) in slides" :key="index">
+    <template x-for="(slide, index) in slides" :key="index">
         <a :href="`/vn-vi/${slide.source_type}/${slide.link}`" target="_blank" class="block col-span-1 row-span-1">
             <div x-show="activeSlide === index" x-transition class="absolute inset-0 w-full h-full">
                 <img :src="slide.image_url" alt="" class="w-full h-full object-cover">
@@ -31,7 +31,7 @@
 
     <!-- Dot Controls -->
     <div class="absolute bottom-3 right-4 flex space-x-2">
-        <template x-for="(slide.source_type, index) in slides" :key="index">
+        <template x-for="(slide, index) in slides" :key="index">
             <button @click="activeSlide = index"
                     :class="activeSlide === index ? 'bg-white' : 'bg-gray-400'"
                     class="w-3 h-3 rounded-full transition-colors duration-300"></button>
