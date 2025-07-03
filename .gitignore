@@ -9,7 +9,6 @@ env
 app/app.db
 # C extensions
 *.so
-vlxx.so
 
 # Distribution / packaging
 .Python
