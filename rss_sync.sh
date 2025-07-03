@@ -10,7 +10,6 @@ LOG_PATH="$PROJECT_DIR/logs/rss_job.log"
 mkdir -p "$(dirname "$LOG_PATH")"
 
 # === Activate virtual environment ===
-source "$ENV_PATH"
 
 # === Kill any existing job (optional, if you want to prevent duplicates) ===
 pkill -f "$SCRIPT_PATH"
