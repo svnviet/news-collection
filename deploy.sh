@@ -10,9 +10,5 @@ git pull origin main
 
 # Restart the Service
 echo "Restarting mmovie service..."
-sudo systemctl stop mmovie
-sudo systemctl start mmovie
-
-# Check Service Status
-echo "Checking mmovie service status..."
-sudo systemctl status mmovie --no-pager
+sudo systemctl stop news-collection
+sudo systemctl start news-collection
