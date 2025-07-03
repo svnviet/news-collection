@@ -192,6 +192,8 @@ def insert_or_get_detail(link):
     elif article_end:
         p_tag = article_end.find_previous_sibling('p')
         author = p_tag.decode_contents() if p_tag else None
+        if len(author.strip()) > 200:
+            author = ""
     else:
         author = ""
 

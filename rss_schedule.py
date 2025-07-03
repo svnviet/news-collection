@@ -1,10 +1,11 @@
 import schedule
 import time
 from sync.vnexpress import get_rss_list, insert_rss, vn_url
+from sync.nld import SyncNLD
 
 
-def job():
-    print("Job started")
+def sync_vne():
+    print("Syncing VNE..")
     rss_list = get_rss_list()
     src_ids = []
 
@@ -14,9 +15,20 @@ def job():
         insert_rss(vn_url + rss_url, src_ids)
 
 
+def sync_nld():
+    print("Syncing NLD..")
+    m = SyncNLD()
+    m.insert_rss_all()
+
+
+def job():
+    sync_vne()
+    sync_nld()
+
+
 # Run every 5 minutes
 schedule.every(1).minutes.do(job)
 
 while True:
     schedule.run_pending()
-    time.sleep(1)
+    time.sleep(10)

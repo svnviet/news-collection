@@ -1,7 +1,6 @@
 from flask import Flask, request, jsonify, render_template, redirect
 from pymongo import MongoClient
-from services import get_vn_express, get_item, get_related_items, get_related_hot_items, \
-    NewsService
+from services import get_vn_express, NewsService
 
 app = Flask(__name__)
 
@@ -11,12 +10,6 @@ client = MongoClient(mongo_uri)
 db = client["vi"]  # Create or connect to a database
 collection = db["news"]  # Create or connect to a collection
 news_service = NewsService()
-
-
-@app.route("/get", methods=["GET"])
-def get_data():
-    items = list(collection.find({}, {"_id": 0}))
-    return jsonify(items)
 
 
 @app.route("/", methods=["GET"])
