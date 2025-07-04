@@ -2,8 +2,8 @@
 
 # Configuration
 MONGO_ADMIN_USER="admin"
-MONGO_ADMIN_PASS="admin"  # Change this
-ALLOW_REMOTE_IP="0.0.0.0/0"           # Or your local IP like "123.123.123.123/32"
+MONGO_ADMIN_PASS="admin"
+ALLOW_REMOTE_IP="0.0.0.0/0"
 MONGO_PORT=27017
 
 echo "[1/6] Updating system..."
@@ -15,32 +15,38 @@ echo "deb [ signed-by=/usr/share/keyrings/mongodb-server-6.gpg ] https://repo.mo
 sudo apt update -y
 sudo apt install -y mongodb-org
 
-echo "[3/6] Starting MongoDB service..."
+echo "[3/6] Enabling and starting MongoDB..."
 sudo systemctl enable mongod
 sudo systemctl start mongod
 
-echo "[4/6] Allowing remote access in mongod.conf..."
-sudo sed -i "s/bindIp: 127.0.0.1/bindIp: 0.0.0.0/" /etc/mongod.conf
+echo "[4/6] Configuring mongod.conf for remote access and auth..."
 
-echo "[5/6] Enabling authentication..."
-if ! grep -q "security:" /etc/mongod.conf; then
-  echo -e "\nsecurity:\n  authorization: enabled" | sudo tee -a /etc/mongod.conf
+# Use yq to safely edit YAML if available, otherwise fallback
+if command -v yq &> /dev/null; then
+  sudo yq -i '.net.bindIp = "0.0.0.0"' /etc/mongod.conf
+  sudo yq -i '.security.authorization = "enabled"' /etc/mongod.conf
 else
-  sudo sed -i "/^security:/,/^ *[^:]*:/{s/^ *authorization:.*/  authorization: enabled/}" /etc/mongod.conf
+  sudo sed -i 's/^\([[:space:]]*bindIp:\).*/\1 0.0.0.0/' /etc/mongod.conf
+
+  # Append security block only if it doesn't exist
+  if ! grep -q "^security:" /etc/mongod.conf; then
+    echo -e "\nsecurity:\n  authorization: enabled" | sudo tee -a /etc/mongod.conf
+  else
+    sudo sed -i "/^security:/,/^ *[^:]*:/{s/^ *authorization:.*/  authorization: enabled/}" /etc/mongod.conf
+  fi
 fi
 
-echo "[6/6] Restarting MongoDB..."
+echo "[5/6] Restarting MongoDB..."
 sudo systemctl restart mongod
-
 sleep 5
 
 echo "Creating admin user..."
-mongo admin --eval "db.createUser({user:'$MONGO_ADMIN_USER', pwd:'$MONGO_ADMIN_PASS', roles:[{role:'root', db:'admin'}]})"
+mongosh admin --eval "db.createUser({user: '$MONGO_ADMIN_USER', pwd: '$MONGO_ADMIN_PASS', roles: [{ role: 'root', db: 'admin' }]})"
 
-echo "Configuring firewall..."
+echo "[6/6] Configuring firewall..."
 sudo ufw allow "$MONGO_PORT"
 sudo ufw allow from "$ALLOW_REMOTE_IP" to any port "$MONGO_PORT"
-sudo ufw reload
+sudo ufw reload || echo "Firewall not enabled — skipping."
 
 echo "✅ MongoDB setup complete!"
 echo "  IP Allow: $ALLOW_REMOTE_IP"
