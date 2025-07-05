@@ -29,7 +29,7 @@ platformdirs==4.3.6
 pydantic==2.9.2
 pydantic_core==2.23.4
 PyJWT==2.9.0
-pymongo==3.13.0
+pymongo==4.0
 python-dotenv==1.0.1
 requests==2.32.3
 schedule==1.2.2
@@ -39,3 +39,5 @@ SQLAlchemy==2.0.31
 typing_extensions==4.12.2
 urllib3==2.4.0
 Werkzeug==3.0.3
+dotenv==0.9.9
+schedule==1.2.2
