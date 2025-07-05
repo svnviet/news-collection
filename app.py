@@ -1,13 +1,11 @@
 from flask import Flask, request, jsonify, render_template, redirect
-from pymongo import MongoClient
 from services import get_vn_express, NewsService
+from settings.db import client
 
 app = Flask(__name__)
 
 # Replace with your Mongo URI (local or Atlas)
-mongo_uri = "mongodb://localhost:27017"
-client = MongoClient(mongo_uri)
-db = client["vi"]  # Create or connect to a database
+db = client["vn-news"]  # Create or connect to a database
 collection = db["news"]  # Create or connect to a collection
 news_service = NewsService()
 

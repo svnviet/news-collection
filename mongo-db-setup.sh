@@ -30,7 +30,7 @@ else
 
   # Append security block only if it doesn't exist
   if ! grep -q "^security:" /etc/mongod.conf; then
-    echo -e "\nsecurity:\n  authorization: enabled" | sudo tee -a /etc/mongod.conf
+    echo -e "\nsecurity:\n  authorization: enabled" | sudo tee -a /etc/mongod.conf > /dev/null
   else
     sudo sed -i "/^security:/,/^ *[^:]*:/{s/^ *authorization:.*/  authorization: enabled/}" /etc/mongod.conf
   fi

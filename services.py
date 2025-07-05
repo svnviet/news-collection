@@ -4,6 +4,7 @@ import requests
 from bs4 import BeautifulSoup
 from pymongo import MongoClient
 
+from settings.db import client
 from sync.vnexpress import collection, insert_or_get_detail
 from sync.nld import SyncNLD
 
@@ -15,9 +16,6 @@ detail_url = "http://127.0.0.1:5000/vn-vi/VNExpress/"
 
 
 class NewsService:
-    MONGO_URI = "mongodb://localhost:27017/vn-news"
-    mongo_uri = MONGO_URI
-    client = MongoClient(mongo_uri)
     db = client["vn-news"]  # Create or connect to a database
     news_collection = db["vn-news"]
 

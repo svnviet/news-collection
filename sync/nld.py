@@ -1,16 +1,13 @@
 import requests
 from bs4 import BeautifulSoup
-from pymongo import MongoClient
 from pymongo.errors import BulkWriteError
 from .base import SyncBase
 import urllib3
+from settings.db import client
 
 # Suppress only InsecureRequestWarning
 urllib3.disable_warnings(urllib3.exceptions.InsecureRequestWarning)
 
-MONGO_URI = "mongodb://localhost:27017/vn-news"
-mongo_uri = MONGO_URI
-client = MongoClient(mongo_uri)
 db = client["vn-news"]  # Create or connect to a database
 collection = db["vn-news"]  # Create or connect to a collection
 collection.create_index("src_id", unique=True)

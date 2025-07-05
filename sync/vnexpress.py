@@ -1,11 +1,8 @@
 import requests
 from bs4 import BeautifulSoup
-from pymongo import MongoClient
 from pymongo.errors import BulkWriteError
+from settings.db import client
 
-MONGO_URI = "mongodb://localhost:27017/vn-news"
-mongo_uri = MONGO_URI
-client = MongoClient(mongo_uri)
 db = client["vn-news"]  # Create or connect to a database
 news_collection = db["vn-news"]
 collection = db["vn-news"]  # Create or connect to a collection
