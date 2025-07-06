@@ -22,13 +22,20 @@ detail_url = "http://127.0.0.1:5000/vn-vi/news/"
 class SyncNLD(SyncBase):
     code = "nld"
     rss_endpoint = vn_url + "rss/"
+    headers = {
+        "User-Agent": (
+            "Mozilla/5.0 (Windows NT 10.0; Win64; x64) "
+            "AppleWebKit/537.36 (KHTML, like Gecko) "
+            "Chrome/115.0.0.0 Safari/537.36"
+        )
+    }
 
     def __init__(self, local_url=base_url):
         self.rss_url = vn_url + "rss.htm"
         super().__init__(self.rss_url, local_url)
 
     def get_rss_list(self):
-        response = requests.get(self.rss_url, verify=False)
+        response = requests.get(self.rss_url, headers=self.headers)
         soup = BeautifulSoup(response.content, "html.parser")
         rss_wrap = soup.find("ul", {"class": "cate-content"})
         rss_list = []
@@ -59,7 +66,7 @@ class SyncNLD(SyncBase):
 
     def insert_rss(self, rss_url=None):
         # Load RSS feed
-        response = requests.get(rss_url, verify=False)
+        response = requests.get(rss_url, headers=self.headers)
         soup = BeautifulSoup(response.content, "xml")
 
         data = []
@@ -113,7 +120,7 @@ class SyncNLD(SyncBase):
     def insert_or_get_detail(self, link, ads=False):
 
         print(link)
-        resp = requests.get(link, verify=False)
+        resp = requests.get(link, headers=self.headers)
         soup = BeautifulSoup(resp.text, 'html.parser')
         src_id = self.get_id_from_url(link)
         article = collection_detail.find_one({"src_id": src_id})

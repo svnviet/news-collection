@@ -1,8 +1,8 @@
 #!/bin/bash
 
 # === Config ===
-PROJECT_DIR="/home/administrator/news-collection"
-ENV_PATH="$PROJECT_DIR/env/bin/activate"
+PROJECT_DIR="~/Projects/templates/svn-vi"
+ENV_PATH="$PROJECT_DIR/venv/bin/activate"
 SCRIPT_PATH="$PROJECT_DIR/rss_schedule.py"
 LOG_PATH="$PROJECT_DIR/logs/rss_job.log"
 

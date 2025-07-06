@@ -12,11 +12,11 @@ class Config:
     STATIC_DIR = os.path.join(BASE_DIR, "static")
     SOURCE_DIR = os.path.abspath(os.path.join(BASE_DIR, ".."))
     SECRET_KEY = os.environ.get("SECRET_KEY", default="your_secret_key")
-    DB_PASSWORD = os.environ.get("DB_PASSWORD", default="<PASSWORD>")
-    DB_USER = os.environ.get("DB_USER", default="<DB_USER>")
-    DB_NAME = os.environ.get("DB_NAME", default="<DB_NAME>")
-    MONGO_URI = f"mongodb://{DB_USER}:{DB_PASSWORD}@localhost:27017/{DB_NAME}?authSource=admin"
-    # MONGO_URI = "mongodb://localhost:27017/vn-news"
+    # SQLALCHEMY_DATABASE_URI = "sqlite:///" + os.path.join(BASE_DIR, "app.db")
+    # SQLALCHEMY_TRACK_MODIFICATIONS = True
+    # DB_PASSWORD = os.environ.get("DB_PASSWORD", default="<PASSWORD>")
+    # MONGO_URI = f"mongodb://admin:{DB_PASSWORD}@localhost:27017/dbhi?authSource=admin"
+    MONGO_URI = "mongodb://localhost:27017/vn-news"
     BASE_URL = os.environ.get("BASE_URL", default="http:localhost:5000")
     CRAWL_URL = os.environ.get("CRAWL_URL", default="")
     # Logger config
