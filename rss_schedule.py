@@ -27,7 +27,8 @@ def job():
 
 
 # Run every 5 minutes
-schedule.every(1).minutes.do(job)
+schedule.every(1).minutes.do(sync_vne)
+schedule.every(1).minutes.do(sync_nld)
 
 while True:
     schedule.run_pending()

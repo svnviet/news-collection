@@ -35,7 +35,7 @@ class SyncNLD(SyncBase):
         super().__init__(self.rss_url, local_url)
 
     def get_rss_list(self):
-        response = requests.get(self.rss_url, headers=self.headers)
+        response = requests.get(self.rss_url, headers=self.headers, stream=False)
         soup = BeautifulSoup(response.content, "html.parser")
         rss_wrap = soup.find("ul", {"class": "cate-content"})
         rss_list = []
@@ -66,7 +66,7 @@ class SyncNLD(SyncBase):
 
     def insert_rss(self, rss_url=None):
         # Load RSS feed
-        response = requests.get(rss_url, headers=self.headers)
+        response = requests.get(rss_url, headers=self.headers, stream=False)
         soup = BeautifulSoup(response.content, "xml")
 
         data = []
@@ -120,7 +120,7 @@ class SyncNLD(SyncBase):
     def insert_or_get_detail(self, link, ads=False):
 
         print(link)
-        resp = requests.get(link, headers=self.headers)
+        resp = requests.get(link, headers=self.headers, stream=False)
         soup = BeautifulSoup(resp.text, 'html.parser')
         src_id = self.get_id_from_url(link)
         article = collection_detail.find_one({"src_id": src_id})
