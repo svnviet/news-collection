@@ -5,9 +5,9 @@ from bs4 import BeautifulSoup
 from pymongo.errors import BulkWriteError
 
 from decorator.retry_proxy import retry_on_proxy
-from .base import SyncBase
+from base import SyncBase
 import urllib3
-from settings.db import client
+from settings import client
 
 # Suppress only InsecureRequestWarning
 urllib3.disable_warnings(urllib3.exceptions.InsecureRequestWarning)
@@ -40,7 +40,7 @@ class SyncNLD(SyncBase):
         self.proxies = self.load_proxies()
 
     def get_rss_list(self):
-        response = self.request(self.rss_url, headers=self.headers, stream=False)
+        response = self.request(self.rss_url, stream=False)
         soup = BeautifulSoup(response.content, "html.parser")
         rss_wrap = soup.find("ul", {"class": "cate-content"})
         rss_list = []
@@ -56,7 +56,7 @@ class SyncNLD(SyncBase):
             res = requests.get(self.proxy_url, timeout=10)
             if res.ok:
                 lines = res.text.strip().splitlines()
-                return [f"http://{p.strip()}" for p in lines if p.strip()]
+                return [p.strip() for p in lines if p.strip() and 'http' in p]
         except Exception as e:
             print(f"Failed to fetch proxies: {e}")
         return []
@@ -90,7 +90,7 @@ class SyncNLD(SyncBase):
 
     def insert_rss(self, rss_url=None):
         # Load RSS feed
-        response = self.request(rss_url, headers=self.headers, stream=False)
+        response = self.request(rss_url, stream=False)
         soup = BeautifulSoup(response.content, "xml")
 
         data = []
@@ -144,7 +144,7 @@ class SyncNLD(SyncBase):
     def insert_or_get_detail(self, link, ads=False):
 
         print(link)
-        resp = self.request(link, headers=self.headers, stream=False)
+        resp = self.request(link, stream=False)
         soup = BeautifulSoup(resp.text, 'html.parser')
         src_id = self.get_id_from_url(link)
         article = collection_detail.find_one({"src_id": src_id})

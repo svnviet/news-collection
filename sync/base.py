@@ -41,16 +41,6 @@ class SyncBase(metaclass=SingletonMeta):
     def insert_rss(self):
         pass
 
-    def load_proxies(self):
-        try:
-            res = requests.get(self.proxy_url, timeout=10)
-            if res.ok:
-                lines = res.text.strip().splitlines()
-                return [f"http://{p.strip()}" for p in lines if p.strip()]
-        except Exception as e:
-            print(f"Failed to fetch proxies: {e}")
-        return []
-
     def request(self, url, method="get", headers=None, proxies=None, **kwargs):
         if not proxies:
             raise ValueError("No proxies available.")
