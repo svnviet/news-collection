@@ -1,7 +1,11 @@
 from flask import Flask, request, jsonify, render_template, redirect
 from services import get_vn_express, NewsService
+from settings import Config
 from settings.db import client
+from flask import Response
+from datetime import datetime
 
+config = Config()
 app = Flask(__name__)
 
 # Replace with your Mongo URI (local or Atlas)
@@ -84,6 +88,24 @@ def detail_related_news():
         "news_html": news_html,
         "consumption_html": consumption_html
     })
+
+
+@app.route('/sitemap.xml')
+def sitemap():
+    pages = [
+        {"loc": config.W3_URL, "lastmod": datetime.now().date()},
+    ]
+    xml = '<?xml version="1.0" encoding="UTF-8"?>\n'
+    xml += '<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">\n'
+    for page in pages:
+        xml += f"  <url>\n"
+        xml += f"    <loc>{page['loc']}</loc>\n"
+        xml += f"    <lastmod>{page['lastmod']}</lastmod>\n"
+        xml += f"    <changefreq>daily</changefreq>\n"
+        xml += f"    <priority>0.8</priority>\n"
+        xml += f"  </url>\n"
+    xml += '</urlset>'
+    return Response(xml, mimetype='application/xml')
 
 
 if __name__ == "__main__":

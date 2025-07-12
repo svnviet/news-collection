@@ -18,6 +18,7 @@ class Config:
     DB_USER = os.environ.get("DB_USER", default="<DB_USER>")
     DB_NAME = os.environ.get("DB_NAME", default="<DB_USER>")
     DB_HOST = os.environ.get("DB_HOST", default="<DB_HOST>")
+    W3_URL = os.environ.get("W3_URL", default="")
     MONGO_URI = f"mongodb://{DB_USER}:{DB_PASSWORD}@{DB_HOST}:27017/{DB_NAME}?authSource=admin"
     # MONGO_URI = "mongodb://localhost:27017/vn-news"
     BASE_URL = os.environ.get("BASE_URL", default="http:localhost:5000")

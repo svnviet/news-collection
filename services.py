@@ -2,10 +2,9 @@ import random
 
 import requests
 from bs4 import BeautifulSoup
-from pymongo import MongoClient
 
 from settings.db import client
-from sync.vnexpress import collection, insert_or_get_detail
+from sync.vnexpress import insert_or_get_detail
 from sync.nld import SyncNLD
 
 sync_nld = SyncNLD()

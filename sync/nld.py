@@ -4,10 +4,10 @@ import requests
 from bs4 import BeautifulSoup
 from pymongo.errors import BulkWriteError
 
-from decorator.retry_proxy import retry_on_proxy
-from base import SyncBase
+from .decorator.retry_proxy import retry_on_proxy
+from .base import SyncBase
 import urllib3
-from settings import client
+from .settings import client
 
 # Suppress only InsecureRequestWarning
 urllib3.disable_warnings(urllib3.exceptions.InsecureRequestWarning)
