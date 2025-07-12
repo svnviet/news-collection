@@ -1,12 +1,21 @@
-import time
+import random
 from abc import abstractmethod
-from functools import wraps
 
 import requests
 from pymongo import MongoClient
 
 
-class SyncBase:
+class SingletonMeta(type):
+    _instances = {}
+
+    def __call__(cls, *args, **kwargs):
+        if cls not in cls._instances:
+            instance = super().__call__(*args, **kwargs)
+            cls._instances[cls] = instance
+        return cls._instances[cls]
+
+
+class SyncBase(metaclass=SingletonMeta):
     """
     This base class for crawling data from rss - interaction with database and other services rss
     """
@@ -32,22 +41,6 @@ class SyncBase:
     def insert_rss(self):
         pass
 
-    def retry_on_proxy(self, max_attempts=5, delay=2):
-        def decorator(func):
-            @wraps(func)
-            def wrapper(self, *args, **kwargs):
-                last_exception = None
-                for attempt in range(1, max_attempts + 1):
-                    try:
-                        return func(self, *args, **kwargs)
-                    except Exception as e:
-                        print(f"[Attempt {attempt}] Error: {e}")
-                        last_exception = e
-                        time.sleep(delay)
-                raise RuntimeError(f"All {max_attempts} attempts failed.") from last_exception
-            return wrapper
-        return decorator
-
     def load_proxies(self):
         try:
             res = requests.get(self.proxy_url, timeout=10)
@@ -58,4 +51,10 @@ class SyncBase:
             print(f"Failed to fetch proxies: {e}")
         return []
 
-
+    def request(self, url, method="get", headers=None, proxies=None, **kwargs):
+        if not proxies:
+            raise ValueError("No proxies available.")
+        proxy = random.choice(proxies)
+        print(f"→ Using proxy: {proxy}")
+        proxies = {"http": proxy, "https": proxy}
+        return requests.request(method, url, headers=headers, proxies=proxies, timeout=5, **kwargs)

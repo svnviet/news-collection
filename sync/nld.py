@@ -1,6 +1,10 @@
+import random
+
 import requests
 from bs4 import BeautifulSoup
 from pymongo.errors import BulkWriteError
+
+from decorator.retry_proxy import retry_on_proxy
 from .base import SyncBase
 import urllib3
 from settings.db import client
@@ -33,9 +37,10 @@ class SyncNLD(SyncBase):
     def __init__(self, local_url=base_url):
         self.rss_url = vn_url + "rss.htm"
         super().__init__(self.rss_url, local_url)
+        self.proxies = self.load_proxies()
 
     def get_rss_list(self):
-        response = requests.get(self.rss_url, headers=self.headers, stream=False)
+        response = self.request(self.rss_url, headers=self.headers, stream=False)
         soup = BeautifulSoup(response.content, "html.parser")
         rss_wrap = soup.find("ul", {"class": "cate-content"})
         rss_list = []
@@ -45,6 +50,25 @@ class SyncNLD(SyncBase):
                 continue
             rss_list.append(rss_data.get("href"))
         return rss_list
+
+    def load_proxies(self):
+        try:
+            res = requests.get(self.proxy_url, timeout=10)
+            if res.ok:
+                lines = res.text.strip().splitlines()
+                return [f"http://{p.strip()}" for p in lines if p.strip()]
+        except Exception as e:
+            print(f"Failed to fetch proxies: {e}")
+        return []
+
+    @retry_on_proxy(max_attempts=5)
+    def request(self, url, method="get", **kwargs):
+        if not self.proxies:
+            raise ValueError("No proxies available.")
+        proxy = random.choice(self.proxies)
+        print(f"→ Using proxy: {proxy}")
+        proxies = {"http": proxy, "https": proxy}
+        return requests.request(method, url, headers=self.headers, proxies=proxies, timeout=5, **kwargs)
 
     def get_id_from_url(self, link):
         dt = f"{self.code}-" + link.split("-")[-1]
@@ -66,7 +90,7 @@ class SyncNLD(SyncBase):
 
     def insert_rss(self, rss_url=None):
         # Load RSS feed
-        response = requests.get(rss_url, headers=self.headers, stream=False)
+        response = self.request(rss_url, headers=self.headers, stream=False)
         soup = BeautifulSoup(response.content, "xml")
 
         data = []
@@ -120,7 +144,7 @@ class SyncNLD(SyncBase):
     def insert_or_get_detail(self, link, ads=False):
 
         print(link)
-        resp = requests.get(link, headers=self.headers, stream=False)
+        resp = self.request(link, headers=self.headers, stream=False)
         soup = BeautifulSoup(resp.text, 'html.parser')
         src_id = self.get_id_from_url(link)
         article = collection_detail.find_one({"src_id": src_id})
