@@ -152,7 +152,19 @@ class NewsService:
     def _get_news_home(self, limit=40):
 
         pipeline = [
-            {"$sort": {"published": -1}},  # Optional: newest first
+            {
+                "$addFields": {
+                    "published_date": {
+                        "$dateFromString": {
+                            "dateString": "$published",
+                            "format": "%a, %d %b %Y %H:%M:%S %z"
+                        }
+                    }
+                }
+            },
+            {
+                "$sort": {"published_date": -1}
+            },
             {
                 "$group": {
                     "_id": "$source_type",
