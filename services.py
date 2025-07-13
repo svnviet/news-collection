@@ -128,27 +128,6 @@ class NewsService:
 
         return data, hot_news, main_item
 
-    def _get_news_related(self, limit=10):
-        pipeline = [
-            {
-                "$group": {
-                    "_id": "$source_type",
-                    "top_news": {"$push": "$$ROOT"}
-                }
-            },
-            {
-                "$project": {
-                    "top_news": {"$slice": ["$top_news", limit]}
-                }
-            }
-        ]
-
-        # Flatten the result into a single list
-        grouped = list(self.news_collection.aggregate(pipeline))
-        news = [item for group in grouped for item in group["top_news"]]
-        random.shuffle(news)
-        return news
-
     def _get_news_home(self, limit=40):
 
         pipeline = [
