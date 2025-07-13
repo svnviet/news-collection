@@ -156,15 +156,12 @@ class NewsService:
                 "$addFields": {
                     "published_date": {
                         "$dateFromString": {
-                            "dateString": "$published",
-                            "format": "%a, %d %b %Y %H:%M:%S %z"
+                            "dateString": "$published"
                         }
                     }
                 }
             },
-            {
-                "$sort": {"published_date": -1}
-            },
+            {"$sort": {"published_date": -1}},
             {
                 "$group": {
                     "_id": "$source_type",
