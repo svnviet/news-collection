@@ -62,7 +62,15 @@ class SyncNLD(SyncBase):
         return []
 
     @retry_on_proxy(max_attempts=5)
-    def request(self, url, method="get", **kwargs):
+    def request(self, url, method="get", attempts=1, **kwargs):
+        if attempts == 1:
+            try:
+                return requests.request(method, url, headers=self.headers, **kwargs)
+            except Exception as e:
+                pass
+        else:
+            attempts += 1
+
         if not self.proxies:
             raise ValueError("No proxies available.")
         proxy = random.choice(self.proxies)
@@ -142,8 +150,6 @@ class SyncNLD(SyncBase):
         return data
 
     def insert_or_get_detail(self, link, ads=False):
-
-        print(link)
         resp = self.request(link, stream=False)
         soup = BeautifulSoup(resp.text, 'html.parser')
         src_id = self.get_id_from_url(link)
