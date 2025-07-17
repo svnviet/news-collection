@@ -20,8 +20,7 @@
 }
 
 .page-detail .sidebar-1 {
-    width: 55%;
-    max-width: calc(100% - 420px);
+    max-width: 640px;
 }
 
 .Image {
@@ -3217,7 +3216,7 @@ figure {
 
 @media screen and (max-width: 1129px) {
     .page-detail .sidebar-1 {
-        max-width:calc(100% - 320px)
+        max-width:calc(100%)
     }
 
     .page-detail .sidebar-2 {
@@ -3226,7 +3225,7 @@ figure {
     }
 
     .page-detail.top-detail .sidebar-1 {
-        max-width: calc(100% - 320px)
+        max-width: calc(100% - 420px)
     }
 
     .page-detail.top-detail .sidebar-2 {
