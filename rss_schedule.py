@@ -29,7 +29,7 @@ def job():
     sync_nld()
 
 
-# Run every 5 minutes
+print(f"Starting RSS-Schedule...")
 schedule.every(1).minutes.do(sync_vne)
 #schedule.every(1).minutes.do(sync_nld)
 
