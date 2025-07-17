@@ -6,13 +6,16 @@ from sync.nld import SyncNLD
 
 def sync_vne():
     print("Syncing VNE..")
-    rss_list = get_rss_list()
-    src_ids = []
+    try:
+        rss_list = get_rss_list()
+        src_ids = []
 
-    for rss_url in rss_list:
-        if rss_url == "/rss/tin-moi-nhat.rss":
-            continue
-        insert_rss(vn_url + rss_url, src_ids)
+        for rss_url in rss_list:
+            if rss_url == "/rss/tin-moi-nhat.rss":
+                continue
+            insert_rss(vn_url + rss_url, src_ids)
+    except AttributeError as e:
+        print(f"Rss Syncing Error. \n Details: {e}")
 
 
 def sync_nld():
