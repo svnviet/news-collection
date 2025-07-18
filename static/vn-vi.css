@@ -3214,7 +3214,7 @@ figure {
     padding-right: 15px
 }
 
-@media screen and (max-width: 1129px) {
+@media screen and (max-width: 1023px) {
     .page-detail .sidebar-1 {
         max-width:calc(100%)
     }
