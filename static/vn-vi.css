@@ -70,7 +70,7 @@ figure {
     text-align: left;
 }
 
-.page-detail.section-recommend .view-more,.wrapper_slide_thumb .swiper-slide:before,.wrapper_slide_thumb .swiper-slide:after {
+.page-detail.section-recommend .view-more, .wrapper_slide_thumb .swiper-slide:before, .wrapper_slide_thumb .swiper-slide:after {
     -webkit-transition-duration: 200ms;
     transition-duration: 200ms;
     -webkit-transition-property: all;
@@ -79,7 +79,7 @@ figure {
     transition-timing-function: cubic-bezier(0.7, 1, 0.7, 1)
 }
 
-.page-detail .footer-content,.page-detail .footer-content .social,.page-detail .footer-content .social a,.page-detail .related-news,.page-detail .list-topic {
+.page-detail .footer-content, .page-detail .footer-content .social, .page-detail .footer-content .social a, .page-detail .related-news, .page-detail .list-topic {
     display: -moz-flex;
     display: -ms-flex;
     display: -o-flex;
@@ -101,11 +101,11 @@ figure {
     display: inherit
 }
 
-.item_tinlq_temp .title_news,.item_tinlq_temp p.Normal,.item-quote,.quiz_box .title_bx,.quiz_box .txt-kq,.number_review,.col_text_review .tit_col,.page-detail .list-topic .view-event span,.item_result_quiz p.text-point {
-    font-feature-settings: 'pnum' on , 'lnum' on;
-    -webkit-font-feature-settings: 'pnum' on , 'lnum' on;
-    -moz-font-feature-settings: 'pnum' on , 'lnum' on;
-    -ms-font-feature-settings: 'pnum' on , 'lnum' on
+.item_tinlq_temp .title_news, .item_tinlq_temp p.Normal, .item-quote, .quiz_box .title_bx, .quiz_box .txt-kq, .number_review, .col_text_review .tit_col, .page-detail .list-topic .view-event span, .item_result_quiz p.text-point {
+    font-feature-settings: 'pnum' on, 'lnum' on;
+    -webkit-font-feature-settings: 'pnum' on, 'lnum' on;
+    -moz-font-feature-settings: 'pnum' on, 'lnum' on;
+    -ms-font-feature-settings: 'pnum' on, 'lnum' on
 }
 
 .fck_detail .btn_control_tv_slider {
@@ -211,11 +211,11 @@ figure {
     position: static
 }
 
-.item_tinlq_temp .title_news,.item_tinlq_temp p.Normal {
+.item_tinlq_temp .title_news, .item_tinlq_temp p.Normal {
     margin: 10px 0 0 0;
     width: 100%;
     float: left;
-    font-family: "Merriweather",serif;
+    font-family: "Merriweather", serif;
     font-size: 16px;
     line-height: 160%;
     font-weight: 400;
@@ -223,7 +223,7 @@ figure {
     margin-bottom: 0 !important
 }
 
-.item_tinlq_temp .title_news a,.item_tinlq_temp p.Normal a {
+.item_tinlq_temp .title_news a, .item_tinlq_temp p.Normal a {
     font-weight: normal;
     text-decoration: none !important;
     color: #222 !important;
@@ -304,7 +304,7 @@ figure {
 }
 
 .item-quote {
-    font-family: "Merriweather",serif;
+    font-family: "Merriweather", serif;
     font-size: 18px;
     line-height: 32px;
     font-weight: 700;
@@ -395,7 +395,7 @@ figure {
     font-weight: 700
 }
 
-.famous_quote .quote_left_icon,.famous_quote .quote_right_icon {
+.famous_quote .quote_left_icon, .famous_quote .quote_right_icon {
     display: none
 }
 
@@ -531,8 +531,8 @@ figure {
     width: 33%;
     float: right;
     position: relative;
-    -webkit-box-shadow: 0px 2px 8px rgba(0,0,0,0.1);
-    box-shadow: 0px 2px 8px rgba(0,0,0,0.1);
+    -webkit-box-shadow: 0px 2px 8px rgba(0, 0, 0, 0.1);
+    box-shadow: 0px 2px 8px rgba(0, 0, 0, 0.1);
     border-radius: 5px;
     overflow: hidden
 }
@@ -622,7 +622,7 @@ figure {
 .slide_on_detail .swiper-button-slide-detail {
     width: 25px;
     height: 50px;
-    background: rgba(79,79,79,0.75);
+    background: rgba(79, 79, 79, 0.75);
     text-align: center;
     line-height: 50px;
     position: absolute;
@@ -652,7 +652,7 @@ figure {
 }
 
 .quiz_box .title_bx {
-    font-family: "Merriweather",serif;
+    font-family: "Merriweather", serif;
     font-size: 16px;
     font-weight: 700;
     margin-bottom: 5px
@@ -754,7 +754,7 @@ figure {
 }
 
 .quiz_box .txt-kq {
-    font-family: "Merriweather",serif;
+    font-family: "Merriweather", serif;
     font-size: 16px;
     font-weight: 700;
     line-height: 160%;
@@ -787,7 +787,7 @@ figure {
     content: ''
 }
 
-.quiz_box.quiz_box_multimark .ans_item.ans_item_selected a:after,.quiz_box.quiz_box_multimark .ans_item.ans_wrong a:after,.quiz_box.quiz_box_multimark .ans_item.ans_right a:after {
+.quiz_box.quiz_box_multimark .ans_item.ans_item_selected a:after, .quiz_box.quiz_box_multimark .ans_item.ans_wrong a:after, .quiz_box.quiz_box_multimark .ans_item.ans_right a:after {
     position: absolute;
     left: 21px;
     top: 10px;
@@ -815,7 +815,7 @@ figure {
 
 .number_review {
     width: 100%;
-    font-family: "Merriweather",serif
+    font-family: "Merriweather", serif
 }
 
 .number_review .tit_point {
@@ -847,7 +847,7 @@ figure {
 }
 
 .col_text_review .tit_col {
-    font-family: "Merriweather",serif;
+    font-family: "Merriweather", serif;
     font-size: 24px;
     font-weight: 700;
     margin-bottom: 20px
@@ -1165,7 +1165,7 @@ figure {
     }
 }
 
-.social-com .circle_s .loader,.social_pin .social_print .loader {
+.social-com .circle_s .loader, .social_pin .social_print .loader {
     margin-top: 5px
 }
 
@@ -1174,7 +1174,7 @@ figure {
     filter: brightness(1.6)
 }
 
-.page-detail .author,.page-detail .author_mail {
+.page-detail .author, .page-detail .author_mail {
     text-align: right;
     font-size: 18px
 }
@@ -1341,7 +1341,7 @@ figure {
 
 .page-detail .topic-detail .link-topic-detail h2 {
     color: #9f224e;
-    font-family: "Merriweather",serif
+    font-family: "Merriweather", serif
 }
 
 .page-detail .topic-detail .link-topic-detail:hover h2 {
@@ -1372,11 +1372,11 @@ figure {
     padding-right: 10px
 }
 
-.page-detail .related-news .item-news .title-news,.page-detail .related-news .item-news .meta-news {
+.page-detail .related-news .item-news .title-news, .page-detail .related-news .item-news .meta-news {
     padding-left: 130px
 }
 
-.page-detail .related-news .item-news .meta-news,.page-detail .related-news .item-news .info-ads {
+.page-detail .related-news .item-news .meta-news, .page-detail .related-news .item-news .info-ads {
     display: block
 }
 
@@ -1510,7 +1510,7 @@ figure {
     left: 30px;
     bottom: 10px;
     display: inline-block;
-    font-family: "Merriweather",serif;
+    font-family: "Merriweather", serif;
     font-style: italic;
     font-weight: 900
 }
@@ -1564,7 +1564,7 @@ figure {
     margin-bottom: 20px
 }
 
-.page-detail.section-recommend .sidebar-1,.page-detail.section-recommend .sidebar-2 {
+.page-detail.section-recommend .sidebar-1, .page-detail.section-recommend .sidebar-2 {
     padding-top: 0
 }
 
@@ -1645,12 +1645,12 @@ figure {
     height: 22px
 }
 
-.social_pin .social_left li.li-error-mess:hover a,.social_pin .social_left li.li-error-mess.active a {
+.social_pin .social_left li.li-error-mess:hover a, .social_pin .social_left li.li-error-mess.active a {
     background: #B42652;
     border: 1px solid #B42652
 }
 
-.social_pin .social_left li.li-error-mess:hover a .ic,.social_pin .social_left li.li-error-mess.active a .ic {
+.social_pin .social_left li.li-error-mess:hover a .ic, .social_pin .social_left li.li-error-mess.active a .ic {
     fill: #fff
 }
 
@@ -1695,7 +1695,7 @@ figure {
 
 @media (max-width: 1799px) {
     .social_pin .social_left li.li-error-mess .note-newfea {
-        right:auto;
+        right: auto;
         left: calc(100% + 20px)
     }
 
@@ -1709,8 +1709,8 @@ figure {
 
 .box-input-error {
     background: #FFFFFF;
-    -webkit-box-shadow: 4px 4px 16px rgba(0,0,0,0.15);
-    box-shadow: 4px 4px 16px rgba(0,0,0,0.15);
+    -webkit-box-shadow: 4px 4px 16px rgba(0, 0, 0, 0.15);
+    box-shadow: 4px 4px 16px rgba(0, 0, 0, 0.15);
     border-radius: 4px;
     position: absolute;
     top: 0;
@@ -1832,7 +1832,7 @@ figure {
 
 @media (max-width: 1799px) {
     .box-input-error {
-        right:auto;
+        right: auto;
         left: calc(100% + 10px)
     }
 }
@@ -1863,8 +1863,8 @@ figure {
     -webkit-transform: translateX(-50%);
     transform: translateX(-50%);
     background: #FAE4EA;
-    -webkit-box-shadow: 4px 4px 16px rgba(0,0,0,0.15);
-    box-shadow: 4px 4px 16px rgba(0,0,0,0.15);
+    -webkit-box-shadow: 4px 4px 16px rgba(0, 0, 0, 0.15);
+    box-shadow: 4px 4px 16px rgba(0, 0, 0, 0.15);
     border-radius: 4px;
     padding: 2px 8px 2px 4px !important;
     color: #B42652 !important;
@@ -1894,7 +1894,7 @@ figure {
 }
 
 .item_result_quiz p.text-point {
-    font-family: "Merriweather",serif;
+    font-family: "Merriweather", serif;
     font-size: 64px;
     line-height: 80px;
     font-weight: 700;
@@ -1913,7 +1913,7 @@ figure {
     bottom: 0
 }
 
-.item_result_quiz .text-point+p {
+.item_result_quiz .text-point + p {
     margin-bottom: 20px
 }
 
@@ -1997,7 +1997,7 @@ figure {
     margin: 0 5px
 }
 
-.box-share-res .social-com .circle_s.mail:hover .ic,.box-share-res .social-com .circle_s.share-link:hover .ic {
+.box-share-res .social-com .circle_s.mail:hover .ic, .box-share-res .social-com .circle_s.share-link:hover .ic {
     fill: #087cce
 }
 
@@ -2039,7 +2039,7 @@ figure {
 .wrapper_slide_thumb .swiper-slide:before {
     width: 100%;
     height: 100%;
-    background: rgba(0,0,0,0.7);
+    background: rgba(0, 0, 0, 0.7);
     position: absolute;
     top: 0;
     left: 0;
@@ -2060,7 +2060,7 @@ figure {
     opacity: 0
 }
 
-.wrapper_slide_thumb .swiper-slide.swiper-slide-thumb-active:before,.wrapper_slide_thumb .swiper-slide.swiper-slide-thumb-active:after {
+.wrapper_slide_thumb .swiper-slide.swiper-slide-thumb-active:before, .wrapper_slide_thumb .swiper-slide.swiper-slide-thumb-active:after {
     opacity: 1
 }
 
@@ -2075,7 +2075,7 @@ figure {
     transform: translateY(-50%);
     line-height: 50px;
     text-align: center;
-    background: rgba(34,34,34,0.75);
+    background: rgba(34, 34, 34, 0.75);
     z-index: 1
 }
 
@@ -2137,7 +2137,7 @@ figure {
 }
 
 .box-bank-insert .title-box .txt-tit-box {
-    font-family: "Merriweather",serif;
+    font-family: "Merriweather", serif;
     font-size: 20px;
     line-height: 160%;
     font-weight: bold
@@ -2226,7 +2226,7 @@ figure {
     padding: 4px 6px 4px 6px;
     text-align: left;
     min-width: 50%;
-    background: rgba(75,120,153,0.2);
+    background: rgba(75, 120, 153, 0.2);
     color: #757575
 }
 
@@ -2275,7 +2275,7 @@ figure {
 }
 
 .box-bank-insert.active-12 .ul-table-bank .td:nth-child(6) span {
-    background: rgba(75,120,153,0.7);
+    background: rgba(75, 120, 153, 0.7);
     color: #fff
 }
 
@@ -2293,7 +2293,7 @@ figure {
 }
 
 .box-bank-insert.active-9 .ul-table-bank .td:nth-child(5) span {
-    background: rgba(75,120,153,0.7);
+    background: rgba(75, 120, 153, 0.7);
     color: #fff
 }
 
@@ -2311,7 +2311,7 @@ figure {
 }
 
 .box-bank-insert.active-6 .ul-table-bank .td:nth-child(4) span {
-    background: rgba(75,120,153,0.7);
+    background: rgba(75, 120, 153, 0.7);
     color: #fff
 }
 
@@ -2329,7 +2329,7 @@ figure {
 }
 
 .box-bank-insert.active-3 .ul-table-bank .td:nth-child(3) span {
-    background: rgba(75,120,153,0.7);
+    background: rgba(75, 120, 153, 0.7);
     color: #fff
 }
 
@@ -2347,7 +2347,7 @@ figure {
 }
 
 .box-bank-insert.active-1 .ul-table-bank .td:nth-child(2) span {
-    background: rgba(75,120,153,0.7);
+    background: rgba(75, 120, 153, 0.7);
     color: #fff
 }
 
@@ -2371,12 +2371,12 @@ figure {
 }
 
 .box-bank-insert .ss-scroll {
-    background: rgba(34,34,34,0.2)
+    background: rgba(34, 34, 34, 0.2)
 }
 
 .box-bank-insert .gradient-layer {
-    background: -webkit-gradient(linear, left top, left bottom, from(rgba(252,250,246,0)), color-stop(52.08%, rgba(252,250,246,0.73)), to(#fcfaf6));
-    background: linear-gradient(180deg, rgba(252,250,246,0) 0%, rgba(252,250,246,0.73) 52.08%, #fcfaf6 100%);
+    background: -webkit-gradient(linear, left top, left bottom, from(rgba(252, 250, 246, 0)), color-stop(52.08%, rgba(252, 250, 246, 0.73)), to(#fcfaf6));
+    background: linear-gradient(180deg, rgba(252, 250, 246, 0) 0%, rgba(252, 250, 246, 0.73) 52.08%, #fcfaf6 100%);
     width: 100%;
     height: 100px;
     position: absolute;
@@ -2398,8 +2398,8 @@ figure {
 }
 
 .col-left-subfolder .box-bank-insert .gradient-layer {
-    background: -webkit-gradient(linear, left top, left bottom, from(rgba(255,255,255,0)), color-stop(52.08%, rgba(255,255,255,0.73)), to(#fff));
-    background: linear-gradient(180deg, rgba(255,255,255,0) 0%, rgba(255,255,255,0.73) 52.08%, #fff 100%)
+    background: -webkit-gradient(linear, left top, left bottom, from(rgba(255, 255, 255, 0)), color-stop(52.08%, rgba(255, 255, 255, 0.73)), to(#fff));
+    background: linear-gradient(180deg, rgba(255, 255, 255, 0) 0%, rgba(255, 255, 255, 0.73) 52.08%, #fff 100%)
 }
 
 .col-left-subfolder .box-bank-insert .tab-right-bank a {
@@ -2417,7 +2417,7 @@ figure {
 }
 
 .box_widget .title_bx {
-    font: bold 18px/160% "Merriweather",serif
+    font: bold 18px/160% "Merriweather", serif
 }
 
 .box_tinhtiendien {
@@ -2440,7 +2440,7 @@ figure {
     font-size: 16px
 }
 
-.box_tinhtiendien input[type="text"],.box_tinhtiendien input[type="number"] select {
+.box_tinhtiendien input[type="text"], .box_tinhtiendien input[type="number"] select {
     padding-right: 60px;
     font-size: 16px
 }
@@ -2722,7 +2722,7 @@ figure {
     color: #9f224e
 }
 
-.box-vhome .icon-cmt,.box-vhome .icon-circle-start,.box-vhome .icon-chuyengia {
+.box-vhome .icon-cmt, .box-vhome .icon-circle-start, .box-vhome .icon-chuyengia {
     position: relative;
     width: 17px;
     height: 17px;
@@ -2765,8 +2765,8 @@ figure {
     left: 0;
     bottom: 0;
     padding: 2px 0 2px 25px;
-    background: -webkit-gradient(linear, left top, left bottom, color-stop(20.71%, rgba(36,73,194,0)), color-stop(59.78%, rgba(36,74,194,0.51)), color-stop(127.86%, #f00611));
-    background: linear-gradient(180deg, rgba(36,73,194,0) 20.71%, rgba(36,74,194,0.51) 59.78%, #f00611 127.86%)
+    background: -webkit-gradient(linear, left top, left bottom, color-stop(20.71%, rgba(36, 73, 194, 0)), color-stop(59.78%, rgba(36, 74, 194, 0.51)), color-stop(127.86%, #f00611));
+    background: linear-gradient(180deg, rgba(36, 73, 194, 0) 20.71%, rgba(36, 74, 194, 0.51) 59.78%, #f00611 127.86%)
 }
 
 .box-video-nguyco .mask img {
@@ -2796,7 +2796,7 @@ figure {
 
 .box-video-nguyco .viewnow a {
     display: inline-block;
-    font: bold 12px/20px "Merriweather",serif;
+    font: bold 12px/20px "Merriweather", serif;
     background: linear-gradient(116.01deg, #ff006c 0.61%, #ff0063 2.12%, red 9.66%, #c11943 29.27%, #853185 48.88%, #5842b5 66.98%, #3d4dd3 80.56%, #3351de 88.1%, #3150da 103.19%, #2a4ccd 119.78%, #1f47b8 136.37%, #1240a0 151.46%);
     -webkit-background-clip: text;
     -webkit-text-fill-color: transparent
@@ -2870,7 +2870,7 @@ figure {
 
 @media (max-width: 767px) {
     .note-bot-detail .info-tt {
-        -ms-flex-wrap:wrap;
+        -ms-flex-wrap: wrap;
         flex-wrap: wrap;
         text-align: center;
         -webkit-box-pack: center;
@@ -3060,8 +3060,8 @@ figure {
     left: 0;
     width: 100%;
     border-radius: 4px;
-    -webkit-box-shadow: 0px 1px 4px 0px rgba(0,0,0,0.2);
-    box-shadow: 0px 1px 4px 0px rgba(0,0,0,0.2);
+    -webkit-box-shadow: 0px 1px 4px 0px rgba(0, 0, 0, 0.2);
+    box-shadow: 0px 1px 4px 0px rgba(0, 0, 0, 0.2);
     background: #fff;
     max-height: 278px;
     overflow-x: hidden;
@@ -3099,7 +3099,7 @@ figure {
     padding: 10px
 }
 
-.box_poll_300 .select-option .list-option a:hover,.box_poll_300 .select-option .list-option a.active {
+.box_poll_300 .select-option .list-option a:hover, .box_poll_300 .select-option .list-option a.active {
     background: var(--gray-100, #F7F7F7)
 }
 
@@ -3163,7 +3163,7 @@ figure {
 
 @media screen and (max-width: 767px) {
     .page-detail .footer-content .social a.news-bussines .tip {
-        left:auto !important;
+        left: auto !important;
         right: 0;
         -webkit-transform: none;
         transform: none
@@ -3215,8 +3215,35 @@ figure {
 }
 
 @media screen and (max-width: 1023px) {
+
+    .detail-content {
+        /*font: 400 18px arial;*/
+    }
+
+    .detail-hnews {
+        display: none !important;
+    }
+
+    p {
+        font-size: 40px;
+        margin-bottom: 60px;
+    }
+
+    h1, h2, h3, h4, h5 {
+        font-size: 43px !important;
+        margin-bottom: 30px;
+    }
+
+    figcaption p {
+        font-size: 35px !important;
+    }
+
+    .article-author {
+        margin: 10px 0 10px;
+    }
+
     .page-detail .sidebar-1 {
-        max-width:calc(100%)
+        max-width: calc(100%)
     }
 
     .page-detail .sidebar-2 {
@@ -3243,7 +3270,7 @@ figure {
 
 @media screen and (max-width: 979px) {
     .page-detail .sidebar-1 {
-        max-width:100%
+        max-width: 100%
     }
 
     .page-detail .sidebar-2 {
@@ -3304,7 +3331,7 @@ figure {
     }
 
     .top-box-slide .text-top {
-        font-family: "Merriweather",serif;
+        font-family: "Merriweather", serif;
         font-size: 18px;
         line-height: 23px;
         font-weight: 700;
@@ -3434,12 +3461,12 @@ figure {
         flex-wrap: wrap
     }
 
-    .page-detail .list-topic .item-news,.page-detail .list-topic .view-event {
+    .page-detail .list-topic .item-news, .page-detail .list-topic .view-event {
         width: 100%;
         border-right: 0
     }
 
-    .page-detail.section-recommend .sidebar-1,.page-detail.section-recommend .sidebar-2 {
+    .page-detail.section-recommend .sidebar-1, .page-detail.section-recommend .sidebar-2 {
         max-width: 100%;
         width: 100%;
         padding: 0
@@ -3449,7 +3476,7 @@ figure {
         width: 50%
     }
 
-    .page-detail .list-topic .item-news,.page-detail .list-topic .view-event {
+    .page-detail .list-topic .item-news, .page-detail .list-topic .view-event {
         width: 25%
     }
 
@@ -3472,7 +3499,7 @@ figure {
 
 @media screen and (max-width: 600px) {
     .page-detail .item-news-common {
-        padding-right:0 !important
+        padding-right: 0 !important
     }
 
     .page-detail .item-news-common .thumb-art {
@@ -3487,8 +3514,4 @@ figure {
     .footer .copyright {
         line-height: 160%
     }
-}
-
-[data-role=content] p {
-    margin-bottom: 24px;
 }

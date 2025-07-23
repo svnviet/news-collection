@@ -136,9 +136,10 @@ function newsDetailFeed() {
             }
 
             const wrapper = document.createElement("section");
-            wrapper.innerHTML = `
-                    <section class="max-w-7xl mx-auto p-4">${data.news_html}</section>
-                    <section class="container">${data.consumption_html}</section>
+            wrapper.innerHTML =
+                `
+                    <section class="max-w-7xl mx-auto p-4 sm:p-6">${data.news_html}</section>
+                    <section class="consumption">${data.consumption_html}</section>
                 `;
             document.getElementById("news-detail-feed").appendChild(wrapper);
             this.page++;

@@ -8,21 +8,13 @@
     <link rel="shortcut icon" href="{{ url_for('static', filename='favicon.ico') }}">
     <link rel="apple-touch-icon" href="{{ url_for('static', filename='android-chrome-192x192.png') }}">
     <!--    <link rel="icon" href="https://yourdomain.com/static/favicon.ico">-->
-    <!-- Google search -->
-    <meta name="robots" content="index, follow">
-    <link rel="canonical" href="https://tin360.info/">
 
-    <script type="application/ld+json">
-        {
-            "@context": "https://schema.org",
-            "@type": "WebSite",
-            "name": "Tin Tức Tổng Hợp",
-            "url": "https://tin360.info"
-        }
-    </script>
     <!-- Tailwind & Alpine -->
     <script src="https://cdn.tailwindcss.com"></script>
     <script src="https://cdn.jsdelivr.net/npm/alpinejs@3.x.x/dist/cdn.min.js" defer></script>
+    <link rel="icon" type="image/png" href="{{ url_for('static', filename='favicon.png') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='vn-vi.css') }}">
+
 </head>
 <body class="bg-gray-100 text-gray-800">
 

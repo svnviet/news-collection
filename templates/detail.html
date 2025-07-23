@@ -1,81 +1,77 @@
 {% extends "base.html" %}
 
 {% block head %}
-<title>{{ article.title }} - Tin Tức Tổng Hợp</title>
-<meta name="description" content="{{ article.description | striptags | truncate(160) }}">
-<meta name="author" content="{{ article.author if article.author else 'Tin Tức Tổng Hợp' }}">
-<link rel="canonical" href="{{ request.url }}">
+    <title>{{ article.title }} - Tin Tức Tổng Hợp</title>
+    <meta name="description" content="{{ article.description | striptags | truncate(160) }}">
+    <meta name="author" content="{{ article.author if article.author else 'Tin Tức Tổng Hợp' }}">
+    <link rel="canonical" href="{{ request.url }}">
 
-<!-- Open Graph -->
-<meta property="og:type" content="article">
-<meta property="og:title" content="{{ article.title }}">
-<meta property="og:description" content="{{ article.description | striptags | truncate(200) }}">
-<meta property="og:url" content="{{ request.url }}">
-<meta property="og:image"
-      content="{{ article.image_url if article.image_url else url_for('static', filename='logo.png', _external=True) }}">
-<meta property="og:site_name" content="Tin Tức Tổng Hợp">
+    <!-- Open Graph -->
+    <meta property="og:type" content="article">
+    <meta property="og:title" content="{{ article.title }}">
+    <meta property="og:description" content="{{ article.description | striptags | truncate(200) }}">
+    <meta property="og:url" content="{{ request.url }}">
+    <meta property="og:image"
+          content="{{ article.image_url if article.image_url else url_for('static', filename='logo.png', _external=True) }}">
+    <meta property="og:site_name" content="Tin Tức Tổng Hợp">
 
-<!-- Twitter -->
-<meta name="twitter:card" content="summary_large_image">
-<meta name="twitter:title" content="{{ article.title }}">
-<meta name="twitter:description" content="{{ article.description | striptags | truncate(200) }}">
-<meta name="twitter:image"
-      content="{{ article.image_url if article.image_url else url_for('static', filename='logo.png', _external=True) }}">
-<!-- Favicon -->
-<link rel="icon" type="image/png" href="{{ url_for('static', filename='favicon.png') }}">
-
-<!-- Tailwind & Alpine -->
-<script src="https://cdn.tailwindcss.com"></script>
-<script src="https://cdn.jsdelivr.net/npm/alpinejs@3.x.x/dist/cdn.min.js" defer></script>
-<link rel="stylesheet" href="{{ url_for('static', filename='vn-vi.css') }}">
+    <!-- Twitter -->
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="{{ article.title }}">
+    <meta name="twitter:description" content="{{ article.description | striptags | truncate(200) }}">
+    <meta name="twitter:image"
+          content="{{ article.image_url if article.image_url else url_for('static', filename='logo.png', _external=True) }}">
 {% endblock %}
 
 {% block content %}
-<div class="container px-4 sm:px-0">  {# Add padding only on mobile #}
-    <div class="page-detail">
-        <main class="sidebar-1 max-w-4xl mx-auto p-4 bg-white shadow mt-4 rounded-lg">
-            <div class="mb-4">
-                <img src="{{ url_for('static', filename=article.source_logo_url) }}" alt="Source Logo"
-                     class="h-12 sm:h-15 mb-2">  {# Resize for mobile #}
+    <div class="body-cnt">
+
+        <div class="detail-cnt px-4 sm:px-0">
+            <div class="page-detail">
+                <main class="sidebar-1 max-w-4xl mx-auto p-4 bg-white shadow mt-4 rounded-lg">
+                    <div class="mb-4">
+                        <img src="{{ url_for('static', filename=article.source_logo_url) }}" alt="Source Logo"
+                             class="h-12 sm:h-15 mb-2 mx-auto sm:mx-0">
+                    </div>
+
+                    <h1 class="font-semibold mb-4">{{ article.title }}</h1>
+
+                    <div class="article-author text-gray-500 mb-4 gap-1">
+                        {% if article.author %}
+                            <p class="text-left">Bài viết của {{ article.author|safe }}</p>
+                        {% endif %}
+                        <p class="text-left sm:text-right">{{ article.published_at }}</p>
+                    </div>
+
+                    <div class="mb-4 text-base leading-relaxed">{{ article.description | safe }}</div>
+
+                    <div class="prose prose-sm sm:prose max-w-none">
+                        {{ article.content | safe }}
+                    </div>
+
+                    <p class="text-xs text-gray-500 mt-4">
+                        Đọc bài viết gốc tại <a class="text-blue-600 underline hover:text-blue-800"
+                                                href="{{ article.article_url }}" target="_blank">đây</a>
+                    </p>
+                </main>
             </div>
-            <h1 class="text-lg sm:text-2xl font-semibold mb-4">{{ article.title }}</h1>
+        </div>
 
-            <div class="flex flex-col sm:flex-row sm:justify-between text-sm text-gray-500 mb-4 gap-1">
-                {% if article.author %}
-                <p class="text-left">Bài viết của {{ article.author|safe }}</p>
-                {% endif %}
-                <p class="text-left sm:text-right">{{ article.published_at }}</p>
-            </div>
-
-            <div class="mb-4 text-base leading-relaxed">{{ article.description | safe }}</div>
-
-            <div class="prose prose-sm sm:prose max-w-none">
-                {{ article.content | safe }}
-            </div>
-
-            <p class="text-xs text-gray-500 mt-4">
-                Đọc bài viết gốc tại <a class="text-blue-600 underline hover:text-blue-800"
-                                       href="{{ article.article_url }}" target="_blank">đây</a>
-            </p>
-        </main>
     </div>
-</div>
-
-<!-- Related feed, unchanged but responsive wrapper added -->
-<div class="max-w-7xl mx-auto p-4 sm:p-6"
-     x-data="newsDetailFeed()"
-     x-init="init_detail_feed()"
-     @scroll.window="handleScroll"
->
-    <section id="news-detail-feed">
-        {% if article_rd %}
-        <section class="mt-4">
-            {% include "components/detail/news-feed.html" %}
+    <div class="max-w-7xl mx-auto p-4 sm:p-6"
+         x-data="newsDetailFeed()"
+         x-init="init_detail_feed()"
+         @scroll.window="handleScroll"
+    >
+        <section id="news-detail-feed">
+            {% if article_rd %}
+                <section class="mt-4">
+                    {% include "components/detail/news-feed.html" %}
+                </section>
+                <section class="mt-4">
+                    {% include "components/detail/consumption-feed-content.html" %}
+                </section>
+            {% endif %}
         </section>
-        <section class="mt-4">
-            {% include "components/detail/consumption-feed-content.html" %}
-        </section>
-        {% endif %}
-    </section>
-</div>
+    </div>
 {% endblock %}
