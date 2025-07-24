@@ -1,4 +1,4 @@
-from flask import Flask, request, jsonify, render_template, redirect
+from flask import Flask, request, jsonify, render_template, redirect, send_from_directory
 from services import get_vn_express, NewsService
 from settings import Config
 from settings.db import client
@@ -106,6 +106,11 @@ def sitemap():
         xml += f"  </url>\n"
     xml += '</urlset>'
     return Response(xml, mimetype='application/xml')
+
+
+@app.route('/robots.txt')
+def robots():
+    return send_from_directory('static', 'robots.txt')
 
 
 if __name__ == "__main__":
