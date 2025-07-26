@@ -21,6 +21,9 @@ class NewsService:
     def __init__(self):
         pass
 
+    def get_all_news(self):
+        return self._get_news_home(limit=10000)
+
     def get_news(self):
         news = self._get_news_home()
         data = []
@@ -59,17 +62,24 @@ class NewsService:
 
     def _get_news_by_source(self, source_type, page, limit):
         skip = (page - 1) * limit
-        match_stage = {
-            "$match": {
-                "source_type": source_type,
-            }
-        }
 
         pipeline = [
-            match_stage,
-            {"$sort": {"published": -1}},
-            {"$skip": skip},
-            {"$limit": limit}
+            {
+                "$match": {
+                    "source_type": source_type
+                }
+            },
+            {
+                "$sort": {
+                    "published_date": -1  # Ensure index exists on this
+                }
+            },
+            {
+                "$skip": skip
+            },
+            {
+                "$limit": limit
+            },
         ]
 
         return list(self.news_collection.aggregate(pipeline))
@@ -131,7 +141,7 @@ class NewsService:
     def _get_news_home(self, limit=40):
 
         pipeline = [
-            {"$sort": {"published": -1}},  # Optional: newest first
+            {"$sort": {"source_type": 1, "published_date": -1}},  # sort by source then time
             {
                 "$group": {
                     "_id": "$source_type",

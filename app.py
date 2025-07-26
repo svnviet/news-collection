@@ -1,6 +1,6 @@
 import os
 
-from flask import Flask, request, jsonify, render_template, redirect, send_from_directory
+from flask import Flask, request, jsonify, render_template, redirect, send_from_directory, url_for
 from services import get_vn_express, NewsService
 from settings import Config
 from settings.db import client
@@ -92,22 +92,25 @@ def detail_related_news():
     })
 
 
-@app.route('/sitemap.xml')
+@app.route("/sitemap.xml", methods=["GET"])
 def sitemap():
-    pages = [
-        {"loc": config.W3_URL, "lastmod": datetime.now().date()},
-    ]
-    xml = '<?xml version="1.0" encoding="UTF-8"?>\n'
-    xml += '<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">\n'
-    for page in pages:
-        xml += f"  <url>\n"
-        xml += f"    <loc>{page['loc']}</loc>\n"
-        xml += f"    <lastmod>{page['lastmod']}</lastmod>\n"
-        xml += f"    <changefreq>daily</changefreq>\n"
-        xml += f"    <priority>0.8</priority>\n"
-        xml += f"  </url>\n"
-    xml += '</urlset>'
-    return Response(xml, mimetype='application/xml')
+    pages = []
+
+    # Static URLs
+    ten_days_ago = datetime.now().date().isoformat()
+    pages.append({
+        "loc": url_for('get_news', _external=True),
+        "lastmod": ten_days_ago
+    })
+
+    for post in news_service.get_all_news():  # Define this based on your DB
+        pages.append({
+            "loc": f"https://tin360.info/vn-vi/{post['source_type']}/{post['link']}",
+            "lastmod": post.get("published", ten_days_ago)
+        })
+
+    sitemap_xml = render_template("sitemap_template.xml", pages=pages)
+    return Response(sitemap_xml, mimetype="application/xml")
 
 
 @app.route('/robots.txt')
