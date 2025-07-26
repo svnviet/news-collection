@@ -1,3 +1,5 @@
+import os
+
 from flask import Flask, request, jsonify, render_template, redirect, send_from_directory
 from services import get_vn_express, NewsService
 from settings import Config
@@ -111,6 +113,11 @@ def sitemap():
 @app.route('/robots.txt')
 def robots():
     return send_from_directory('static', 'robots.txt')
+
+
+@app.route('/favicon.ico')
+def favicon():
+    return send_from_directory('static', 'favicon.ico')
 
 
 if __name__ == "__main__":
